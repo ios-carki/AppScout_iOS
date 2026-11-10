@@ -1,0 +1,6 @@
+// 모든 구성(Debug/Release)이 공유하는 값
+// xcconfig에서 "//"는 주석으로 취급되므로 URL은 $() 트릭으로 이어 붙인다.
+APP_DISPLAY_NAME = AppScout
+API_SCHEME = http
+API_HOST = localhost:8000
+API_BASE_URL = $(API_SCHEME):/$()/$(API_HOST)

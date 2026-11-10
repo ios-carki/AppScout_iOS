@@ -1,0 +1,94 @@
+# =========================================================
+# macOS
+# =========================================================
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# =========================================================
+# Xcode
+# =========================================================
+xcuserdata/
+*.xcuserstate
+*.xcscmblueprint
+*.xccheckout
+DerivedData/
+build/
+*.moved-aside
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+*.xcresult
+timeline.xctimeline
+playground.xcworkspace
+.swiftpm/
+
+# =========================================================
+# Tuist (프로젝트 파일은 Project.swift로부터 생성하므로 커밋하지 않음)
+# =========================================================
+*.xcodeproj
+*.xcworkspace
+Derived/
+Tuist/.build/
+graph.dot
+graph.json
+graph.png
+
+# =========================================================
+# Swift Package Manager
+# =========================================================
+.build/
+Packages/
+Package.pins
+
+# =========================================================
+# 테스트 / 스냅샷
+# =========================================================
+**/__Snapshots__/**/*.failed.png
+fastlane/test_output/
+
+# =========================================================
+# Fastlane (도입 시)
+# =========================================================
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+
+# =========================================================
+# 설정 / 비밀값
+# =========================================================
+Configs/Secrets.xcconfig
+*.p8
+*.p12
+*.mobileprovision
+GoogleService-Info.plist
+
+# =========================================================
+# Server (FastAPI / Python)
+# =========================================================
+Server/.env
+Server/.venv/
+Server/venv/
+**/__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+Server/media/
+
+# =========================================================
+# Docker
+# =========================================================
+docker-compose.override.yml
+
+# =========================================================
+# IDE / 에디터
+# =========================================================
+.idea/
+.vscode/
+*.swp
+*~

@@ -1,0 +1,43 @@
+services:
+  db:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-appscout-root}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-appscout}
+      MYSQL_USER: ${MYSQL_USER:-appscout}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-appscout}
+    command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_0900_ai_ci"]
+    ports:
+      - "${MYSQL_PORT:-3307}:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD:-appscout-root}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  api:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: mysql+pymysql://${MYSQL_USER:-appscout}:${MYSQL_PASSWORD:-appscout}@db:3306/${MYSQL_DATABASE:-appscout}?charset=utf8mb4
+      MEDIA_DIR: /srv/media
+      AUTO_SEED: "true"
+    ports:
+      - "${API_PORT:-8000}:8000"
+    volumes:
+      - media-data:/srv/media
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  mysql-data:
+  media-data:

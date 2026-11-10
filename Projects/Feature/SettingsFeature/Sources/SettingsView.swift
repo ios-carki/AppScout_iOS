@@ -19,7 +19,7 @@ public struct SettingsView: View {
         )
         .navigationTitle("설정")
         .navigationBarTitleDisplayMode(.inline)
-        .task { store.send(.onAppear) }
+        .task { await store.send(.onAppear).finish() }
     }
 }
 

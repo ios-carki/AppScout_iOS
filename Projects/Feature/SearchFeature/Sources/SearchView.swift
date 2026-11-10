@@ -22,7 +22,7 @@ public struct SearchView: View {
             .navigationTitle("검색")
             .toolbarTitleDisplayMode(.inlineLarge)
         }
-        .task { store.send(.onAppear) }
+        .task { await store.send(.onAppear).finish() }
     }
 }
 

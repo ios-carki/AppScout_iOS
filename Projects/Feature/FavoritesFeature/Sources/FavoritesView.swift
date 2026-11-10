@@ -22,7 +22,7 @@ public struct FavoritesView: View {
             .navigationTitle("즐겨찾기")
             .toolbarTitleDisplayMode(.inlineLarge)
         }
-        .task { store.send(.onAppear) }
+        .task { await store.send(.onAppear).finish() }
     }
 }
 

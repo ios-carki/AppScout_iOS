@@ -22,7 +22,7 @@ public struct ProfileView: View {
             .navigationTitle("프로필")
             .toolbarTitleDisplayMode(.inlineLarge)
         }
-        .task { store.send(.onAppear) }
+        .task { await store.send(.onAppear).finish() }
     }
 }
 

@@ -19,7 +19,7 @@ public struct AppDetailView: View {
         )
         .navigationTitle("상세")
         .navigationBarTitleDisplayMode(.inline)
-        .task { store.send(.onAppear) }
+        .task { await store.send(.onAppear).finish() }
     }
 }
 

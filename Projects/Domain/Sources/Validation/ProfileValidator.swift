@@ -7,7 +7,9 @@ import Foundation
 public enum ProfileValidator {
     public static let nameLength = 2...20
     public static let emailMaxLength = 100
-    public static let imageMaxBytes = 5 * 1024 * 1024
+    /// 사용자가 고른 **원본** 이미지 기준 최대 크기.
+    /// 업로드 전에 Data 계층이 긴 변 1024px JPEG로 줄이고, 서버는 압축 결과에 5MB 제한을 둔다.
+    public static let imageMaxBytes = 20 * 1024 * 1024
 
     /// 검증을 통과하면 앞뒤 공백을 제거한 이름을 돌려준다.
     public static func validateName(_ name: String) throws(ValidationError) -> String {

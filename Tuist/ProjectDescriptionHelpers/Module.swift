@@ -65,6 +65,8 @@ extension TargetDependency {
         public static let dependencies: TargetDependency = .external(name: "Dependencies")
         public static let dependenciesMacros: TargetDependency = .external(name: "DependenciesMacros")
         public static let sqliteData: TargetDependency = .external(name: "SQLiteData")
+        /// SQLiteData가 내부적으로 쓰는 GRDB. ValueObservation(DB 변경 관찰)을 쓰기 위해 직접 연결한다.
+        public static let grdb: TargetDependency = .external(name: "GRDB")
         public static let alamofire: TargetDependency = .external(name: "Alamofire")
         public static let kingfisher: TargetDependency = .external(name: "Kingfisher")
     }

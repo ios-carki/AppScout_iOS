@@ -5,5 +5,6 @@ let project = Project.frameworkModule(
     name: Module.Core.database.rawValue,
     dependencies: [
         .External.sqliteData,
+        .External.grdb,
     ]
 )

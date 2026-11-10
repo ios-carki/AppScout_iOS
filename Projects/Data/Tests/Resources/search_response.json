@@ -1,0 +1,27 @@
+{
+  "total": 2,
+  "limit": 20,
+  "offset": 0,
+  "items": [
+    {
+      "id": 362057947,
+      "name": "카카오톡 KakaoTalk",
+      "seller_name": "Kakao Corp.",
+      "icon_url": "https://is1-ssl.mzstatic.com/image/thumb/Purple/kakao/100x100bb.jpg",
+      "primary_genre": "소셜 네트워킹",
+      "average_rating": 3.4,
+      "rating_count": 152381,
+      "formatted_price": "무료"
+    },
+    {
+      "id": 839333328,
+      "name": "토스",
+      "seller_name": "Viva Republica",
+      "icon_url": null,
+      "primary_genre": "금융",
+      "average_rating": null,
+      "rating_count": null,
+      "formatted_price": null
+    }
+  ]
+}

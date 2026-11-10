@@ -11,7 +11,7 @@ public struct ProfileUseCase: Sendable {
     public var fetch: @Sendable () async throws -> Profile
     public var updateName: @Sendable (_ name: String) async throws -> Profile
     public var updateEmail: @Sendable (_ email: String) async throws -> Profile
-    /// JPEG/PNG 데이터. 5MB 이하만 허용한다.
+    /// 사용자가 고른 원본 이미지 데이터(JPEG/PNG/HEIC). 20MB 이하만 허용하고, 업로드 전에 Data 계층이 압축한다.
     public var updateAvatar: @Sendable (_ imageData: Data) async throws -> Profile
 }
 

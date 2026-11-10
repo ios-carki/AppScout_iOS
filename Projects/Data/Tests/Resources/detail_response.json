@@ -1,0 +1,23 @@
+{
+  "id": 362057947,
+  "name": "카카오톡 KakaoTalk",
+  "seller_name": "Kakao Corp.",
+  "icon_url": "https://is1-ssl.mzstatic.com/image/thumb/Purple/kakao/512x512bb.jpg",
+  "primary_genre": "소셜 네트워킹",
+  "average_rating": 3.4,
+  "rating_count": 152381,
+  "formatted_price": "무료",
+  "description": "카카오톡은 전 세계 어디서나 무료로 메시지를 주고받는 메신저입니다.",
+  "version": "25.9.0",
+  "release_notes": "",
+  "screenshot_urls": [
+    "https://is1-ssl.mzstatic.com/image/thumb/a/392x696bb.jpg",
+    "https://is1-ssl.mzstatic.com/image/thumb/b/392x696bb.jpg"
+  ],
+  "genres": ["소셜 네트워킹", "생산성"],
+  "file_size_bytes": 412345678,
+  "content_rating": "4+",
+  "minimum_os_version": "16.0",
+  "current_version_release_date": "2025-10-01T09:00:00Z",
+  "track_view_url": "https://apps.apple.com/kr/app/id362057947"
+}

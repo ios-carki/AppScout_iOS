@@ -1,5 +1,7 @@
 // Data 모듈이 SQLiteData의 쿼리 API를 바로 쓸 수 있도록 다시 내보낸다.
 @_exported import SQLiteData
+// DB 변경 관찰용 (SQLiteData는 이 타입을 다시 내보내지 않음)
+@_exported import struct GRDB.ValueObservation
 
 import Foundation
 import OSLog

@@ -42,6 +42,7 @@ pages.push(page('00', 'AppScout — 와이어프레임 & 디자인 스펙',
     · <b>레이어</b> 열 작은 글씨 = 그 레이어를 만드는 <b>SwiftUI 타입</b> (<code>List</code>, <code>ScrollView</code>) 또는 재사용할 컴포넌트 (→ C3)<br>
     · <b>레이아웃</b> 열 = 그 컨테이너 <b>안</b>에서 자식을 놓는 방식. 예: <code>ScrollView</code> + <code>VStack(spacing: 0)</code> = ScrollView 안에 VStack<br>
     · <code>List</code>는 행을 스스로 배치하므로 레이아웃 열이 '—'입니다.<br>
+    · <b>배경</b> 열 '—' = 배경 없음(투명, 부모 배경이 비침). 화면 배경은 모든 화면 공통 <code>.dsBackground</code>입니다.<br>
     · <b>텍스트</b> 열의 색은 검은 글자도 생략하지 않습니다. 기본색(<code>.primary</code>)에 맡기지 말고 <code>.foregroundStyle(.dsTextPrimary)</code>를 지정하세요.</div>
     <div class="note"><b>그림과 실제 앱의 차이</b><br>
     · 아이콘은 SF Symbols 대신 비슷한 모양으로 그렸습니다. 실제 심볼 이름은 표와 02쪽에 있습니다.<br>

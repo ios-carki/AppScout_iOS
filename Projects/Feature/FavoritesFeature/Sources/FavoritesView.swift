@@ -3,7 +3,7 @@ import DesignSystem
 import Domain
 import SwiftUI
 
-/// 즐겨찾기 화면 (뼈대). 와이어프레임 p.10
+/// 즐겨찾기 화면 (뼈대). 와이어프레임 S7~S8
 public struct FavoritesView: View {
     @Bindable var store: StoreOf<FavoritesFeature>
 
@@ -17,7 +17,7 @@ public struct FavoritesView: View {
             EmptyStateView(
                 systemImage: "hammer",
                 title: "즐겨찾기 구현 예정",
-                message: "와이어프레임 p.10\ndocs/feature-guide.md"
+                message: "와이어프레임 S7~S8\ndocs/feature-guide.md"
             )
             .navigationTitle("즐겨찾기")
             .toolbarTitleDisplayMode(.inlineLarge)

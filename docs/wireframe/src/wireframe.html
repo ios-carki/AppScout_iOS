@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>AppScout 와이어프레임</title>
+<style>
+@font-face { font-family: 'pretendard'; src: url('../../../Projects/Shared/DesignSystem/Resources/Fonts/Pretendard-Regular.otf'); }
+@font-face { font-family: 'pretendard-medium'; src: url('../../../Projects/Shared/DesignSystem/Resources/Fonts/Pretendard-Medium.otf'); }
+@font-face { font-family: 'pretendard-semibold'; src: url('../../../Projects/Shared/DesignSystem/Resources/Fonts/Pretendard-SemiBold.otf'); }
+@font-face { font-family: 'pretendard-bold'; src: url('../../../Projects/Shared/DesignSystem/Resources/Fonts/Pretendard-Bold.otf'); }
+@font-face { font-family: 'ionicons'; src: url('Ionicons.ttf'); }
+
+@page { size: 1587px 1123px; margin: 0; }
+* { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+html, body { margin: 0; padding: 0; background: #E5E7EB; }
+body { font-family: 'pretendard', sans-serif; color: #111827; font-size: 13px; line-height: 1.5; }
+
+/* ---------- 문서 페이지 ---------- */
+.page { width: 1587px; height: 1123px; position: relative; overflow: hidden; background: #FFFFFF;
+        padding: 36px 48px 0 48px; page-break-after: always; break-after: page; }
+.page:last-child { page-break-after: auto; break-after: auto; }
+.ph { display: flex; align-items: flex-end; justify-content: space-between; border-bottom: 2px solid #111827; padding-bottom: 10px; margin-bottom: 20px; }
+.ph h1 { font-family: 'pretendard-bold'; font-size: 28px; line-height: 36px; margin: 0; letter-spacing: -0.3px; }
+.ph .sub { font-size: 14px; color: #4B5563; margin-top: 2px; }
+.ph .pid { font-family: 'pretendard-bold'; font-size: 13px; color: #FFFFFF; background: #4F46E5; border-radius: 6px; padding: 4px 10px; }
+.pf { position: absolute; left: 48px; right: 48px; bottom: 16px; display: flex; justify-content: space-between; font-size: 11px; color: #8A919E; border-top: 1px solid #E5E7EB; padding-top: 6px; }
+.pbody { display: flex; gap: 32px; align-items: flex-start; }
+.col { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+h2 { font-family: 'pretendard-bold'; font-size: 17px; line-height: 24px; margin: 0 0 8px 0; }
+h3 { font-family: 'pretendard-semibold'; font-size: 14px; line-height: 20px; margin: 0 0 6px 0; color: #374151; }
+p { margin: 0 0 6px 0; }
+code, .code { font-family: Menlo, 'pretendard', monospace; font-size: 11.5px; }
+code { background: #EEF0FF; color: #3730A3; padding: 0 3px; border-radius: 3px; }
+pre.code { background: #F6F7F9; border: 1px solid #E5E7EB; border-radius: 8px; padding: 12px 14px; margin: 0; white-space: pre; line-height: 1.55; color: #1F2937; }
+.note { background: #FFF8E6; border: 1px solid #F0D9A0; border-radius: 8px; padding: 10px 12px; font-size: 12.5px; }
+.note b { color: #92400E; }
+.warn { background: #FDECEC; border: 1px solid #F2B8B5; border-radius: 8px; padding: 10px 12px; font-size: 12.5px; }
+.tca { background: #EEF0FF; border: 1px solid #C7CBF5; border-radius: 8px; padding: 10px 12px; font-size: 12.5px; }
+.tca b { color: #3730A3; }
+.muted { color: #8A919E; }
+
+/* ---------- 표 ---------- */
+table.t { border-collapse: collapse; width: 100%; font-size: 11.5px; line-height: 1.45; table-layout: fixed; }
+table.t th { background: #1F2937; color: #FFFFFF; font-family: 'pretendard-semibold'; font-weight: normal; text-align: left; padding: 6px 7px; font-size: 11px; }
+table.t td { border-bottom: 1px solid #E5E7EB; padding: 5px 7px; vertical-align: top; word-break: keep-all; overflow-wrap: anywhere; }
+table.t tr:nth-child(even) td { background: #F9FAFB; }
+table.t td.n { text-align: center; }
+table.t td code { font-size: 10.5px; }
+.badge { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 9px; background: #E5484D; color: #FFFFFF; font-family: 'pretendard-bold'; font-size: 10.5px; line-height: 1; }
+.lay { font-family: 'pretendard-semibold'; }
+.lay small { display: block; font-family: 'pretendard'; color: #8A919E; font-size: 10.5px; }
+.meas { display: block; color: #C2185B; font-family: Menlo, monospace; font-size: 10px; }
+.tok { display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
+.tok code { background: none; color: #1F2937; padding: 0; }
+.sw { display: inline-block; width: 10px; height: 10px; border-radius: 2px; border: 1px solid rgba(0,0,0,.15); vertical-align: -1px; }
+
+/* ---------- 기기 ---------- */
+.scaler { position: relative; flex-shrink: 0; }
+.scaler > .device { transform-origin: 0 0; position: absolute; left: 0; top: 0; }
+.device { position: relative; padding: 10px; background: #18171A; border-radius: 58px; width: 413px; height: 872px; }
+.frame { position: relative; width: 393px; height: 852px; overflow: hidden; border-radius: 48px; background: #FFFFFF;
+         display: flex; flex-direction: column; }
+.overlay { position: absolute; left: 10px; top: 10px; width: 393px; height: 852px; pointer-events: none; }
+.flabel { font-family: 'pretendard-bold'; font-size: 14px; margin-bottom: 6px; }
+.flabel small { font-family: 'pretendard'; color: #8A919E; font-size: 12px; margin-left: 6px; }
+
+/* 목업 기본 요소 (SwiftUI VStack/HStack 처럼) */
+.v { display: flex; flex-direction: column; position: relative; flex-shrink: 0; min-width: 0; min-height: 0; }
+div.t { display: block; flex-shrink: 0; white-space: pre-wrap; }
+div.t.l1 { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ic { font-family: 'ionicons'; text-align: center; flex-shrink: 0; display: block; font-style: normal; }
+.spin { flex-shrink: 0; border-radius: 50%; border-style: solid; border-width: 2.5px; border-right-color: transparent !important; opacity: .9; }
+
+/* ---------- 레드라인 ---------- */
+.rl-box { position: absolute; border: 1px dashed #2F80ED; }
+.rl-badge { position: absolute; width: 18px; height: 18px; border-radius: 9px; background: #E5484D; color: #fff; z-index: 5;
+            font-family: 'pretendard-bold'; font-size: 10.5px; line-height: 18px; text-align: center; box-shadow: 0 0 0 2px #fff; }
+.rl-pad { position: absolute; background: repeating-linear-gradient(45deg, rgba(233,30,99,.20) 0 3px, rgba(233,30,99,.08) 3px 6px); }
+.rl-gap { position: absolute; background: rgba(155, 81, 224, .18); }
+.rl-gapline { position: absolute; background: #9B51E0; }
+.rl-num { position: absolute; font-family: Menlo, monospace; font-size: 9.5px; line-height: 13px; padding: 0 3px; border-radius: 3px; color: #fff; white-space: nowrap; z-index: 4; }
+.rl-num.pad { background: #D81B60; }
+.rl-num.gap { background: #9B51E0; }
+.rl-num.dim { background: #2F80ED; }
+.rl-dimw { position: absolute; height: 0; border-top: 1px solid #2F80ED; }
+.rl-dimh { position: absolute; width: 0; border-left: 1px solid #2F80ED; }
+
+.legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 11.5px; color: #374151; }
+.legend span { display: inline-flex; align-items: center; gap: 5px; }
+.lg-box { width: 16px; height: 11px; border: 1px dashed #2F80ED; }
+.lg-pad { width: 16px; height: 11px; background: repeating-linear-gradient(45deg, rgba(233,30,99,.35) 0 3px, rgba(233,30,99,.12) 3px 6px); }
+.lg-gap { width: 16px; height: 11px; background: rgba(155, 81, 224, .3); border-top: 1px solid #9B51E0; border-bottom: 1px solid #9B51E0; }
+.lg-dim { padding: 0 3px; font-family: Menlo; font-size: 9.5px; color: #fff; background: #2F80ED; border-radius: 3px; }
+
+/* Variant 캔버스 */
+.canvas { background: #F3F4F6; border: 1px solid #E5E7EB; border-radius: 10px; padding: 16px; }
+.vgrid { display: grid; gap: 14px; }
+.vcell { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.vcell .vl { font-family: 'pretendard-semibold'; font-size: 11px; color: #4B5563; }
+.vcell .stage { position: relative; padding: 12px; border-radius: 6px; background: #FFFFFF; display: flex; flex-direction: column; }
+.stage.dark { background: #0B0D12; }
+.rlstage { position: relative; display: inline-block; }
+.rlstage > .overlay2 { position: absolute; left: 0; top: 0; pointer-events: none; }
+</style>
+</head>
+<body>
+<div id="doc"></div>
+<script src="lib.js"></script>
+<script src="mock.js"></script>
+<script src="pages.js"></script>
+<script src="components.js"></script>
+<script src="screens.js"></script>
+</body>
+</html>

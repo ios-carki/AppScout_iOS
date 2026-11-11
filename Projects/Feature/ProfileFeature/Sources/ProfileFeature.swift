@@ -5,7 +5,7 @@ import SettingsFeature
 
 /// 프로필 화면 리듀서 (뼈대)
 ///
-/// 와이어프레임: docs/wireframe/AppScout_Wireframe.pdf p.11~13
+/// 와이어프레임: docs/wireframe/AppScout_Wireframe.pdf S9~S12
 /// 요구사항·체크리스트: docs/feature-guide.md#profile
 ///
 /// - [ ] State: 프로필, 로딩 상태, 내비게이션 path(이름 편집 / 이메일 편집 / 설정), 이미지 업로드 상태, 알럿

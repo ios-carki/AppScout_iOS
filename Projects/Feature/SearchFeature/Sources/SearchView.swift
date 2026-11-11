@@ -3,7 +3,7 @@ import DesignSystem
 import Domain
 import SwiftUI
 
-/// 검색 화면 (뼈대). 와이어프레임 p.4~7
+/// 검색 화면 (뼈대). 와이어프레임 S1~S3
 public struct SearchView: View {
     @Bindable var store: StoreOf<SearchFeature>
 
@@ -17,7 +17,7 @@ public struct SearchView: View {
             EmptyStateView(
                 systemImage: "hammer",
                 title: "검색 구현 예정",
-                message: "와이어프레임 p.4~7\ndocs/feature-guide.md"
+                message: "와이어프레임 S1~S3\ndocs/feature-guide.md"
             )
             .navigationTitle("검색")
             .toolbarTitleDisplayMode(.inlineLarge)

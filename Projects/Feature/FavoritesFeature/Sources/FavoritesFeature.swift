@@ -5,7 +5,7 @@ import AppDetailFeature
 
 /// 즐겨찾기 화면 리듀서 (뼈대)
 ///
-/// 와이어프레임: docs/wireframe/AppScout_Wireframe.pdf p.10
+/// 와이어프레임: docs/wireframe/AppScout_Wireframe.pdf S7~S8
 /// 요구사항·체크리스트: docs/feature-guide.md#favorites
 ///
 /// - [ ] State: 즐겨찾기 목록(IdentifiedArrayOf), 내비게이션 path

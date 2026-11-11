@@ -4,7 +4,7 @@ import Foundation
 
 /// 상세 화면 리듀서 (뼈대)
 ///
-/// 와이어프레임: docs/wireframe/AppScout_Wireframe.pdf p.8~9
+/// 와이어프레임: docs/wireframe/AppScout_Wireframe.pdf S4~S6
 /// 요구사항·체크리스트: docs/feature-guide.md#app-detail
 ///
 /// - [ ] State: 진입 시 받은 AppSummary(목록에서 이미 아는 정보로 상단을 먼저 그림), 상세 로딩 상태(로딩/성공/실패), 즐겨찾기 여부, 설명 펼침 여부

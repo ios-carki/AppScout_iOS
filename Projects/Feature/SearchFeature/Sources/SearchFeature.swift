@@ -5,7 +5,7 @@ import AppDetailFeature
 
 /// 검색 화면 리듀서 (뼈대)
 ///
-/// 와이어프레임: docs/wireframe/AppScout_Wireframe.pdf p.4~7
+/// 와이어프레임: docs/wireframe/AppScout_Wireframe.pdf S1~S3
 /// 요구사항·체크리스트: docs/feature-guide.md#search
 ///
 /// - [ ] State: 검색어(query), 최근 검색어 목록, 검색 결과·페이지 정보, 로딩/에러 상태, 알럿, 내비게이션 path

@@ -4,7 +4,7 @@ import Foundation
 import ProfileFeature
 import SearchFeature
 
-/// 탭 구성 (와이어프레임 p.3)
+/// 탭 구성 (와이어프레임 05)
 ///
 /// 탭 3개를 조립만 하는 리듀서라 미리 구현해 두었다. 각 탭의 기능은 하위 Feature에서 구현한다.
 /// - [ ] (설정 구현 후) @Shared(.appStorage("appTheme"))를 읽어서 RootView에 테마 적용

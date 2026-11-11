@@ -5,7 +5,7 @@ import ProfileFeature
 import SearchFeature
 import SwiftUI
 
-/// 앱 루트 탭 화면 (와이어프레임 p.3)
+/// 앱 루트 탭 화면 (와이어프레임 05)
 public struct RootView: View {
     @Bindable var store: StoreOf<RootFeature>
 

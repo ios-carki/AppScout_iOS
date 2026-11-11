@@ -23,7 +23,7 @@ tuist install && tuist generate
 |---|---|
 | [docs/README.md](docs/README.md) | 전체 안내, 실행·테스트 방법 |
 | [docs/feature-guide.md](docs/feature-guide.md) | 기능별 요구사항과 구현 순서 |
-| [docs/wireframe/AppScout_Wireframe.pdf](docs/wireframe/AppScout_Wireframe.pdf) | 와이어프레임 16페이지 |
+| [docs/wireframe/AppScout_Wireframe.pdf](docs/wireframe/AppScout_Wireframe.pdf) | 와이어프레임 & 디자인 스펙 28쪽 (화면별 · 컴포넌트별 레드라인과 레이어 스펙) |
 | [docs/lecture-gaps.md](docs/lecture-gaps.md) | 강의 코드와 최신 TCA·SwiftUI의 차이 |
 | [docs/architecture.md](docs/architecture.md) | 모듈 구조와 의존성 주입 |
 | [docs/local-db.md](docs/local-db.md) | SQLiteData 사용법 |

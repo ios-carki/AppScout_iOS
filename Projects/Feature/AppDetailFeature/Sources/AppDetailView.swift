@@ -3,7 +3,7 @@ import DesignSystem
 import Domain
 import SwiftUI
 
-/// 상세 화면 (뼈대). 와이어프레임 p.8~9
+/// 상세 화면 (뼈대). 와이어프레임 S4~S6
 public struct AppDetailView: View {
     @Bindable var store: StoreOf<AppDetailFeature>
 
@@ -15,7 +15,7 @@ public struct AppDetailView: View {
         EmptyStateView(
             systemImage: "hammer",
             title: "상세 구현 예정",
-            message: "와이어프레임 p.8~9\ndocs/feature-guide.md"
+            message: "와이어프레임 S4~S6\ndocs/feature-guide.md"
         )
         .navigationTitle("상세")
         .navigationBarTitleDisplayMode(.inline)

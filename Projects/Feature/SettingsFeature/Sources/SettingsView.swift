@@ -3,7 +3,7 @@ import DesignSystem
 import Domain
 import SwiftUI
 
-/// 설정 화면 (뼈대). 와이어프레임 p.14
+/// 설정 화면 (뼈대). 와이어프레임 S13~S14
 public struct SettingsView: View {
     @Bindable var store: StoreOf<SettingsFeature>
 
@@ -15,7 +15,7 @@ public struct SettingsView: View {
         EmptyStateView(
             systemImage: "hammer",
             title: "설정 구현 예정",
-            message: "와이어프레임 p.14\ndocs/feature-guide.md"
+            message: "와이어프레임 S13~S14\ndocs/feature-guide.md"
         )
         .navigationTitle("설정")
         .navigationBarTitleDisplayMode(.inline)

@@ -4,7 +4,7 @@ import Foundation
 
 /// 설정 화면 리듀서 (뼈대)
 ///
-/// 와이어프레임: docs/wireframe/AppScout_Wireframe.pdf p.14
+/// 와이어프레임: docs/wireframe/AppScout_Wireframe.pdf S13~S14
 /// 요구사항·체크리스트: docs/feature-guide.md#settings
 ///
 /// - [ ] State: @Shared(.appStorage("appTheme")) 테마(시스템/라이트/다크), 확인 다이얼로그, 앱 버전

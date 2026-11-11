@@ -189,3 +189,21 @@ body {
 .spec code, .spec td, .spec li { overflow-wrap: anywhere; }
 .phones { gap: 20px; }
 .callout { box-shadow: 0 0 0 2px #fff; }
+
+/* ---------- 레드라인 (redline.js) ---------- */
+/* 분홍 = 실제 구현 치수(pt). 그림은 축소본이라 픽셀과 숫자가 다르다. */
+:root { --rl: #E5007E; }
+.rl-layer { position: absolute; inset: 0; pointer-events: none; z-index: 8; }
+.rl-h { position: absolute; border-top: 1px solid var(--rl); }
+.rl-v { position: absolute; border-left: 1px solid var(--rl); }
+.rl-tick-v { position: absolute; border-left: 1px solid var(--rl); }
+.rl-tick-h { position: absolute; border-top: 1px solid var(--rl); }
+.rl-label, .rl-badge {
+  position: absolute; white-space: nowrap;
+  font: 700 7px/9px "SF Mono", Menlo, monospace; color: #fff; background: var(--rl);
+  padding: 0 2px; border-radius: 2px; box-shadow: 0 0 0 1px #fff;
+}
+.rl-badge { background: #fff; color: var(--rl); box-shadow: inset 0 0 0 1px var(--rl); }
+.rl-legend { display: inline-flex; align-items: center; gap: 6px; font-size: 9px; color: var(--ink-2); }
+.rl-legend i { font-style: normal; font: 700 7px/9px "SF Mono", Menlo, monospace; color: #fff; background: var(--rl); padding: 0 3px; border-radius: 2px; }
+.rl-legend s { text-decoration: none; font: 700 7px/9px "SF Mono", Menlo, monospace; color: var(--rl); box-shadow: inset 0 0 0 1px var(--rl); padding: 0 3px; border-radius: 2px; }

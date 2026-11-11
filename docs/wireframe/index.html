@@ -35,7 +35,8 @@
     · 화면 위 <span class="n">1</span> 번호는 오른쪽 명세표의 같은 번호와 대응합니다.<br>
     · <code>monospace</code> 글자는 TCA Action·State 이름 제안입니다. (구현 시 바꿔도 됨)<br>
     · 색·글꼴은 실제 디자인 토큰이 아니라 배치를 위한 회색조 표현입니다. 실제 값은 p.16 / design-system.md.<br>
-    · 모든 문구(알럿·빈 상태)는 그대로 써도 되는 최종 문구입니다.
+    · 모든 문구(알럿·빈 상태)는 그대로 써도 되는 최종 문구입니다.<br>
+    · 화면 위 <b style="color:#E5007E">분홍 선·숫자</b>는 실제 구현 치수(pt)입니다. 자세한 읽는 법은 p.3.
   </div>
 </div>
 <div class="page-foot"><span>AppScout 와이어프레임 v1.0 · 2026-11-10</span><span>1 / 16</span></div>
@@ -95,12 +96,14 @@
 </section><section class="page">
 <div class="page-head"><span class="no">p.3</span><h1>탭 구조 · 공통 규칙</h1><span class="sub">RootFeature · 모든 화면에 적용</span><span class="tag"></span></div>
 <div class="body"><div class="phones"><div class="phone-wrap" style="position:relative"><div class="phone "><div class="status"><span>9:41</span><span class="island"></span><span>▮▮▮ ◔</span></div>
-<div class="nav"><div class="large">검색</div><div class="right" style="top:14px"><span class="glass">⚙</span></div></div>
-<div class="content"><div class="searchbar">⌕ 앱 이름이나 키워드를 검색해 보세요</div>
+<div class="nav" data-rl="h:52"><div class="large">검색</div><div class="right" style="top:14px"><span class="glass" data-rl="t:44×44">⚙</span></div></div>
+<div class="content"><div class="searchbar" data-rl="ml:20;mr:20">⌕ 앱 이름이나 키워드를 검색해 보세요</div>
 <div class="l w80"></div><div class="l w60"></div><div class="l w70"></div></div>
-<div class="tabbar"><span class="on"><i>⌕</i>검색</span><span class=""><i>♡</i>즐겨찾기</span><span class=""><i>◯</i>프로필</span></div><div class="home"></div>
+<div data-rl="t:시스템 탭 바 · 직접 그리지 않음" style="height:0"></div><div class="tabbar"><span class="on"><i>⌕</i>검색</span><span class=""><i>♡</i>즐겨찾기</span><span class=""><i>◯</i>프로필</span></div><div class="home"></div>
 </div><span class="n callout" style="top:30px;left:-7px">1</span><span class="n callout" style="top:410px;left:-7px">2</span><span class="n callout" style="top:66px;left:203px">3</span>
 <div class="phone-label">탭 구조 (검색 탭 선택)</div></div></div><div class="spec">
+<div class="note"><b>레드라인 읽는 법</b> · <span class="rl-legend"><i>44</i> 분홍 선 = 간격·크기 (pt)</span> &nbsp; <span class="rl-legend"><s>r 14</s> 테두리 배지 = 크기·모양·토큰 메모</span><br>
+그림은 축소본이라 픽셀과 숫자가 다릅니다. <b>숫자(pt)를 기준으로</b> 구현하세요. 시스템이 그리는 요소(탭 바, 내비게이션 바, 알럿, 시트)는 치수를 적지 않았습니다.</div>
 <h2>구성</h2>
 <table><tr><th>#</th><th>컴포넌트</th><th>설명 · 제약</th></tr><tr><td><span class="n">1</span></td><td>내비게이션 타이틀</td><td>탭 루트는 <code>.navigationTitle</code> + <code>.toolbarTitleDisplayMode(.inlineLarge)</code> (왼쪽 큰 제목, 스크롤 시 축소). 텍스트를 툴바 아이템으로 넣지 않는다 (iOS 26에서 유리 버블에 갇힘).</td></tr><tr><td><span class="n">2</span></td><td>탭 바</td><td>검색 ⌕ / 즐겨찾기 ♡ / 프로필 ◯. 선택 색 <code>brandPrimary</code>. iOS 26에서는 시스템이 떠 있는 유리 탭 바로 그림 (직접 꾸미지 않음).</td></tr><tr><td><span class="n">3</span></td><td>툴바 버튼</td><td>아이콘 버튼은 시스템 기본 색을 따른다. <code>.foregroundStyle(.black)</code> 같은 고정 색 금지 (다크 모드에서 안 보임). 유리 버블을 숨기려면 <code>sharedBackgroundVisibility(.hidden)</code> (iOS 26+).</td></tr></table>
 <div class="cols">
@@ -115,15 +118,15 @@
 <div class="page-head"><span class="no">p.4</span><h1>검색 — 초기 / 최근 검색어</h1><span class="sub">검색어가 비어 있을 때</span><span class="tag">SearchFeature</span></div>
 <div class="body"><div class="phones"><div class="phone-wrap" style="position:relative"><div class="phone "><div class="status"><span>9:41</span><span class="island"></span><span>▮▮▮ ◔</span></div>
 <div class="nav"><div class="large">검색</div></div>
-<div class="content"><div class="searchbar">⌕ 앱 이름이나 키워드를 검색해 보세요</div>
-<div class="section">최근 검색어 <a>전체 삭제</a></div>
-<div class="row"><span class="muted">↺</span>카카오<span class="end">✕</span></div><div class="row"><span class="muted">↺</span>토스<span class="end">✕</span></div><div class="row"><span class="muted">↺</span>notion<span class="end">✕</span></div><div class="row"><span class="muted">↺</span>가계부<span class="end">✕</span></div><div class="row"><span class="muted">↺</span>날씨<span class="end">✕</span></div>
+<div class="content"><div class="searchbar" data-rl="gt:8;h:44;ml:20">⌕ 앱 이름이나 키워드를 검색해 보세요</div>
+<div class="section" data-rl="gt:12;h:44">최근 검색어 <a>전체 삭제</a></div>
+<div class="row" data-rl="h:44"><span class="muted" data-rl="gl:12">↺</span><span>카카오</span><span class="end">✕</span></div><div class="row"><span class="muted">↺</span><span>토스</span><span class="end" data-rl="t:✕ 44×44">✕</span></div><div class="row"><span class="muted">↺</span><span>notion</span><span class="end">✕</span></div><div class="row"><span class="muted">↺</span><span>가계부</span><span class="end">✕</span></div><div class="row"><span class="muted">↺</span><span>날씨</span><span class="end">✕</span></div>
 </div><div class="tabbar"><span class="on"><i>⌕</i>검색</span><span class=""><i>♡</i>즐겨찾기</span><span class=""><i>◯</i>프로필</span></div><div class="home"></div>
 </div><span class="n callout" style="top:56px;left:-7px">1</span><span class="n callout" style="top:92px;left:-7px">2</span><span class="n callout" style="top:92px;left:203px">3</span><span class="n callout" style="top:120px;left:-7px">4</span><span class="n callout" style="top:120px;left:203px">5</span>
 <div class="phone-label">A. 최근 검색어 있음</div></div><div class="phone-wrap" style="position:relative"><div class="phone "><div class="status"><span>9:41</span><span class="island"></span><span>▮▮▮ ◔</span></div>
 <div class="nav"><div class="large">검색</div></div>
 <div class="content"><div class="searchbar">⌕ 앱 이름이나 키워드를 검색해 보세요</div>
-<div class="center" style="top:40px"><div class="big-ic">⌕</div><div class="t">어떤 앱을 찾고 있나요?</div><div class="s">앱 이름, 개발사, 장르로 검색할 수 있어요.</div></div>
+<div class="center" style="top:40px"><div class="big-ic" data-rl="t:44pt · textTertiary">⌕</div><div class="t" data-rl="gt:20">어떤 앱을 찾고 있나요?</div><div class="s">앱 이름, 개발사, 장르로 검색할 수 있어요.</div></div>
 </div><div class="tabbar"><span class="on"><i>⌕</i>검색</span><span class=""><i>♡</i>즐겨찾기</span><span class=""><i>◯</i>프로필</span></div><div class="home"></div></div><span class="n callout" style="top:200px;left:-7px">6</span>
 <div class="phone-label">B. 최근 검색어 없음</div></div></div><div class="spec">
 <h2>컴포넌트</h2>
@@ -139,7 +142,7 @@
 <div class="page-head"><span class="no">p.5</span><h1>검색 — 입력 · 로딩 · 결과</h1><span class="sub">디바운스와 요청 취소</span><span class="tag">SearchFeature</span></div>
 <div class="body"><div class="phones"><div class="phone-wrap" style="position:relative"><div class="phone sm"><div class="status"><span>9:41</span><span class="island"></span><span>▮▮▮ ◔</span></div>
 <div class="nav"><div class="large">검색</div></div>
-<div class="content"><div class="searchbar filled">⌕ 카카<span class="x">✕</span></div>
+<div class="content"><div class="searchbar filled">⌕ 카카<span class="x" data-rl="t:44×44">✕</span></div>
 <div class="section">최근 검색어 <a>전체 삭제</a></div>
 <div class="row"><span class="muted">↺</span>카카오<span class="end">✕</span></div><div class="row"><span class="muted">↺</span>토스<span class="end">✕</span></div>
 </div><div class="tabbar"><span class="on"><i>⌕</i>검색</span><span class=""><i>♡</i>즐겨찾기</span><span class=""><i>◯</i>프로필</span></div><div class="home"></div></div><span class="n callout" style="top:56px;left:-7px">1</span><span class="n callout" style="top:56px;left:183px">2</span>
@@ -151,8 +154,8 @@
 <div class="phone-label">B. 첫 로딩</div></div><div class="phone-wrap" style="position:relative"><div class="phone sm"><div class="status"><span>9:41</span><span class="island"></span><span>▮▮▮ ◔</span></div>
 <div class="nav"><div class="large">검색</div></div>
 <div class="content"><div class="searchbar filled">⌕ 카카오<span class="x">✕</span></div>
-<div class="s" style="margin:-2px 0 2px"><b>검색 결과 11개</b></div>
-<div class="row"><div class="icon"></div><div class="lines"><div class="t">카카오톡 KakaoTalk</div><div class="s">소셜 네트워킹 · Kakao Corp.</div>
+<div class="s" data-rl="gt:16" style="margin:-2px 0 2px"><b>검색 결과 11개</b></div>
+<div class="row" data-rl="h:84"><div class="icon" data-rl="sz:60"></div><div class="lines"><div class="t">카카오톡 KakaoTalk</div><div class="s">소셜 네트워킹 · Kakao Corp.</div>
 <div class="stars">★★★½☆<em>3.6 · 94.2만</em></div></div></div>
 <div class="row"><div class="icon"></div><div class="lines"><div class="t">카카오 T</div><div class="s">여행 · Kakao Mobility</div>
 <div class="stars">★★★★★<em>4.7 · 46.4만</em></div></div></div>
@@ -175,12 +178,12 @@
 <div class="body"><div class="phones"><div class="phone-wrap" style="position:relative"><div class="phone "><div class="status"><span>9:41</span><span class="island"></span><span>▮▮▮ ◔</span></div>
 <div class="nav"><div class="large">검색</div></div>
 <div class="content"><div class="searchbar filled">⌕ zzzzqq<span class="x">✕</span></div>
-<div class="center" style="top:40px"><div class="big-ic">⌕</div><div class="t">‘zzzzqq’ 검색 결과가 없어요</div><div class="s">철자를 확인하거나 다른 키워드로 검색해 보세요.</div></div>
+<div class="center" style="top:40px"><div class="big-ic">⌕</div><div class="t" data-rl="gt:20">‘zzzzqq’ 검색 결과가 없어요</div><div class="s">철자를 확인하거나 다른 키워드로 검색해 보세요.</div></div>
 </div><div class="tabbar"><span class="on"><i>⌕</i>검색</span><span class=""><i>♡</i>즐겨찾기</span><span class=""><i>◯</i>프로필</span></div><div class="home"></div></div><span class="n callout" style="top:200px;left:-7px">1</span>
 <div class="phone-label">A. 결과 없음</div></div><div class="phone-wrap" style="position:relative"><div class="phone "><div class="status"><span>9:41</span><span class="island"></span><span>▮▮▮ ◔</span></div>
 <div class="nav"><div class="large">검색</div></div>
 <div class="content"><div class="searchbar filled">⌕ 카카오<span class="x">✕</span></div>
-<div class="center" style="top:40px"><div class="big-ic">⚠︎</div><div class="t">문제가 발생했어요</div><div class="s">네트워크 연결을 확인해 주세요.</div><div class="btn ghost" style="width:90px;margin-top:6px">다시 시도</div></div>
+<div class="center" style="top:40px"><div class="big-ic">⚠︎</div><div class="t">문제가 발생했어요</div><div class="s">네트워크 연결을 확인해 주세요.</div><div class="btn ghost" data-rl="t:최대 200 × 52" style="width:90px;margin-top:6px">다시 시도</div></div>
 </div><div class="tabbar"><span class="on"><i>⌕</i>검색</span><span class=""><i>♡</i>즐겨찾기</span><span class=""><i>◯</i>프로필</span></div><div class="home"></div></div><span class="n callout" style="top:200px;left:-7px">2</span><span class="n callout" style="top:262px;left:-7px">3</span>
 <div class="phone-label">B. 에러 (결과 없음 상태)</div></div></div><div class="spec">
 <table><tr><th>#</th><th>컴포넌트</th><th>설명 · 제약</th></tr><tr><td><span class="n">1</span></td><td>결과 없음</td><td>제목 “‘{검색어}’ 검색 결과가 없어요”, 설명 “철자를 확인하거나 다른 키워드로 검색해 보세요.” 검색어가 길면 제목 2줄까지 후 말줄임.</td></tr><tr><td><span class="n">2</span></td><td>에러 화면</td><td>결과가 하나도 없을 때의 실패만 화면으로 표시. 메시지는 <code>DomainError.message</code> 그대로.</td></tr><tr><td><span class="n">3</span></td><td>다시 시도</td><td>같은 검색어·같은 페이지로 재요청. 누르면 B → 로딩(p.5-B).</td></tr></table>
@@ -194,13 +197,13 @@
 <div class="page-foot"><span>AppScout 와이어프레임 v1.0 · 2026-11-10</span><span>6 / 16</span></div>
 </section><section class="page">
 <div class="page-head"><span class="no">p.7</span><h1>결과 셀 · 무한 스크롤</h1><span class="sub">AppRowView와 페이지 크기 20</span><span class="tag">SearchFeature</span></div>
-<div class="body"><div class="phones" style="gap:20px"><div class="phone-wrap"><div style="width:330px;border:1.5px dashed var(--line);border-radius:10px;padding:12px 14px;position:relative">
-<div style="display:flex;gap:12px;align-items:center">
- <div class="icon" style="width:60px;height:60px;border-radius:13px"></div>
+<div class="body"><div class="phones" style="gap:20px"><div class="phone-wrap"><div data-rl-host style="width:330px;border:1.5px dashed var(--line);border-radius:10px;padding:12px 14px;position:relative">
+<div data-rl="h:84 (위아래 8)" style="display:flex;gap:12px;align-items:center">
+ <div class="icon" data-rl="sz:60×60;gl:12;t:r 13.4" style="width:60px;height:60px;border-radius:13px"></div>
  <div style="flex:1"><div style="font-size:14px;font-weight:700">카카오톡 KakaoTalk</div>
- <div style="font-size:11px;color:#4B5563">소셜 네트워킹 · Kakao Corp.</div>
- <div class="stars" style="font-size:11px">★★★½☆<em>3.6 · 94.2만</em></div></div>
- <div style="font-size:11px;color:#8A919E">무료</div>
+ <div data-rl="gt:4" style="font-size:11px;color:#4B5563">소셜 네트워킹 · Kakao Corp.</div>
+ <div class="stars" data-rl="gt:4" style="font-size:11px">★★★½☆<em>3.6 · 94.2만</em></div></div>
+ <div data-rl="t:caption" style="font-size:11px;color:#8A919E">무료</div>
 </div>
 <span class="n callout" style="top:-7px;left:14px">1</span><span class="n callout" style="top:-7px;left:84px">2</span>
 <span class="n callout" style="top:24px;left:323px">5</span><span class="n callout" style="top:34px;left:-7px">3</span><span class="n callout" style="top:54px;left:-7px">4</span>
@@ -211,9 +214,9 @@
 <div class="row"><div class="icon"></div><div class="lines"><div class="t">…</div><div class="s">…</div>
 <div class="stars">★★★★☆<em>4.5 · 1.2만</em></div></div></div><div class="row"><div class="icon"></div><div class="lines"><div class="t">…</div><div class="s">…</div>
 <div class="stars">★★★★☆<em>4.5 · 1.2만</em></div></div></div>
-<div class="row" style="justify-content:center;border:0"><div class="spinner" style="width:14px;height:14px"></div><span class="s">불러오는 중</span></div>
-<div class="row" style="justify-content:center;border:0;flex-direction:column;gap:3px"><span class="s">더 불러오지 못했어요.</span><span class="btn ghost" style="height:22px;width:70px;font-size:8.5px">다시 시도</span></div>
-<div class="row" style="justify-content:center;border:0"><span class="s">모든 결과를 확인했어요</span></div>
+<div class="row" data-rl="h:52" style="justify-content:center;border:0"><div class="spinner" style="width:14px;height:14px"></div><span class="s">불러오는 중</span></div>
+<div class="row" data-rl="h:52" style="justify-content:center;border:0;flex-direction:column;gap:3px"><span class="s">더 불러오지 못했어요.</span><span class="btn ghost" style="height:22px;width:70px;font-size:8.5px">다시 시도</span></div>
+<div class="row" data-rl="h:52" style="justify-content:center;border:0"><span class="s">모든 결과를 확인했어요</span></div>
 </div>
 <span class="n callout" style="top:124px;left:30px">6</span><span class="n callout" style="top:150px;left:30px">7</span><span class="n callout" style="top:194px;left:30px">8</span></div><div class="phone-label">목록 하단 3가지 상태</div></div></div><div class="spec">
 <h2>셀 (DesignSystem <code>AppRowView</code>)</h2>
@@ -226,22 +229,22 @@
 </section><section class="page">
 <div class="page-head"><span class="no">p.8</span><h1>상세 — 로딩 · 상단 정보</h1><span class="sub">결과/즐겨찾기 → push</span><span class="tag">AppDetailFeature</span></div>
 <div class="body"><div class="phones"><div class="phone-wrap" style="position:relative"><div class="phone "><div class="status"><span>9:41</span><span class="island"></span><span>▮▮▮ ◔</span></div>
-<div class="nav inline"><span class="left">‹</span><span class="title"></span><span class="right"><span class="glass">♡</span></span></div>
+<div class="nav inline"><span class="left">‹</span><span class="title"></span><span class="right"><span class="glass" data-rl="t:44×44">♡</span></span></div>
 <div class="content">
-<div style="display:flex;gap:10px;margin-top:4px"><div class="icon lg"></div><div><div class="t" style="font-size:12px">카카오톡 KakaoTalk</div><div class="s">Kakao Corp.</div><div class="stars">★★★½☆<em>3.6 · 94.2만</em></div></div></div>
-<div class="skeleton" style="height:28px;margin:10px 0"></div>
+<div style="display:flex;gap:10px;margin-top:4px"><div class="icon lg" data-rl="sz:100×100"></div><div><div class="t" style="font-size:12px">카카오톡 KakaoTalk</div><div class="s">Kakao Corp.</div><div class="stars">★★★½☆<em>3.6 · 94.2만</em></div></div></div>
+<div class="skeleton" data-rl="t:스켈레톤 · surface" style="height:28px;margin:10px 0"></div>
 <div class="skeleton" style="height:120px;margin-bottom:8px"></div>
 <div class="skeleton" style="height:8px;width:80%;margin:4px 0"></div><div class="skeleton" style="height:8px;width:60%"></div>
 </div><div class="home"></div></div><span class="n callout" style="top:64px;left:-7px">1</span><span class="n callout" style="top:128px;left:-7px">2</span><span class="n callout" style="top:26px;left:203px">3</span>
 <div class="phone-label">A. 진입 직후 (상세 로딩 중)</div></div><div class="phone-wrap" style="position:relative"><div class="phone "><div class="status"><span>9:41</span><span class="island"></span><span>▮▮▮ ◔</span></div>
 <div class="nav inline"><span class="left">‹</span><span class="title">카카오톡 KakaoTalk</span><span class="right"><span class="glass" style="color:#4F46E5">♥</span></span></div>
 <div class="content">
-<div style="display:flex;gap:10px;margin-top:4px"><div class="icon lg"></div><div style="flex:1"><div class="t" style="font-size:12px">카카오톡 KakaoTalk</div><div class="s">Kakao Corp.</div>
-<div style="margin-top:3px"><span class="chip">소셜 네트워킹</span> <span class="chip">생산성</span></div></div></div>
-<div style="display:flex;justify-content:space-around;text-align:center;margin:10px 0;font-size:8px;color:#4B5563">
+<div data-rl="gt:8" style="display:flex;gap:10px;margin-top:4px"><div class="icon lg" data-rl="sz:100×100;gl:12"></div><div style="flex:1"><div class="t" style="font-size:12px">카카오톡 KakaoTalk</div><div class="s">Kakao Corp.</div>
+<div data-rl="gt:8" style="margin-top:3px"><span class="chip">소셜 네트워킹</span> <span class="chip">생산성</span></div></div></div>
+<div data-rl="gt:16;h:70" style="display:flex;justify-content:space-around;text-align:center;margin:10px 0;font-size:8px;color:#4B5563">
 <div><b style="font-size:10px;color:#111">3.6</b><br>★★★½☆</div><div><b style="font-size:10px;color:#111">94.2만</b><br>평가</div><div><b style="font-size:10px;color:#111">4+</b><br>연령</div><div><b style="font-size:10px;color:#111">무료</b><br>가격</div></div>
-<div class="btn">App Store에서 보기</div>
-<div class="section" style="margin-top:10px">미리 보기</div><div class="shots"><div class="shot"></div><div class="shot"></div><div class="shot"></div></div>
+<div class="btn" data-rl="gt:16;sz:높이 52;ml:20;mr:20">App Store에서 보기</div>
+<div class="section" data-rl="gt:24" style="margin-top:10px">미리 보기</div><div class="shots" data-rl="gt:12"><div class="shot"></div><div class="shot"></div><div class="shot"></div></div>
 </div><div class="home"></div></div><span class="n callout" style="top:94px;left:-7px">4</span><span class="n callout" style="top:128px;left:-7px">5</span><span class="n callout" style="top:186px;left:-7px">6</span>
 <div class="phone-label">B. 로딩 완료 (상단)</div></div></div><div class="spec">
 <table><tr><th>#</th><th>컴포넌트</th><th>설명 · 제약</th></tr><tr><td><span class="n">1</span></td><td>요약 정보 (즉시)</td><td>목록에서 받은 <code>AppSummary</code>로 아이콘·이름·개발사·별점을 <b>바로</b> 그림. 상세 응답을 기다리지 않음.</td></tr><tr><td><span class="n">2</span></td><td>스켈레톤</td><td>나머지 영역은 상세 응답 전까지 회색 블록. 전체 화면 스피너를 쓰지 않음 (화면이 덜 깜빡임).</td></tr><tr><td><span class="n">3</span></td><td>즐겨찾기 ♡/♥</td><td>툴바 오른쪽. 로딩 중에도 누를 수 있음 (요약 정보로 저장). 상태는 DB 관찰 스트림으로 갱신 → 다른 화면에서 바꿔도 반영. <code>accessibilityLabel</code> “즐겨찾기 추가/해제”.</td></tr><tr><td><span class="n">4</span></td><td>장르 태그</td><td><code>TagView</code>, 최대 3개, 한 줄.</td></tr><tr><td><span class="n">5</span></td><td>요약 지표</td><td>평점 / 평가 수 / 연령 등급 / 가격. 4칸 균등.</td></tr><tr><td><span class="n">6</span></td><td>App Store에서 보기</td><td><code>DSButtonStyle(.primary)</code>. <code>@Dependency(\.openURL)</code>로 <code>appStoreURL</code> 열기. URL이 없으면 버튼 숨김.</td></tr></table>
@@ -256,18 +259,18 @@
 <div class="body"><div class="phones"><div class="phone-wrap" style="position:relative"><div class="phone "><div class="status"><span>9:41</span><span class="island"></span><span>▮▮▮ ◔</span></div>
 <div class="nav inline"><span class="left">‹</span><span class="title">카카오톡 KakaoTalk</span><span class="right"><span class="glass">♡</span></span></div>
 <div class="content">
-<div class="shots"><div class="shot"></div><div class="shot"></div><div class="shot"></div></div>
-<div class="section">설명</div><div class="l w90"></div><div class="l w80"></div><div class="l w70"></div><div class="s" style="color:#4F46E5;text-align:right">더 보기</div>
-<div class="section">새로운 기능 <a>버전 25.9.0 · 2026.11.03</a></div><div class="l w80"></div><div class="l w50"></div>
+<div class="shots"><div class="shot" data-rl="hl:400;gl:12;t:r 14"></div><div class="shot"></div><div class="shot"></div></div>
+<div class="section" data-rl="gt:24">설명</div><div class="l w90" data-rl="t:body · 최대 3줄"></div><div class="l w80"></div><div class="l w70"></div><div class="s" data-rl="t:44 터치" style="color:#4F46E5;text-align:right">더 보기</div>
+<div class="section" data-rl="gt:24">새로운 기능 <a>버전 25.9.0 · 2026.11.03</a></div><div class="l w80"></div><div class="l w50"></div>
 <div class="section">정보</div>
-<div class="kv"><span>개발사</span><span>Kakao Corp.</span></div><div class="kv"><span>크기</span><span>393.2MB</span></div>
+<div class="kv" data-rl="h:44"><span>개발사</span><span>Kakao Corp.</span></div><div class="kv"><span>크기</span><span>393.2MB</span></div>
 <div class="kv"><span>연령 등급</span><span>4+</span></div><div class="kv"><span>호환성</span><span>iOS 16.0 이상</span></div>
 </div><div class="home"></div></div><span class="n callout" style="top:54px;left:-7px">1</span><span class="n callout" style="top:184px;left:-7px">2</span><span class="n callout" style="top:200px;left:203px">3</span><span class="n callout" style="top:236px;left:-7px">4</span><span class="n callout" style="top:290px;left:-7px">5</span>
 <div class="phone-label">A. 본문 (스크롤 아래)</div></div><div class="phone-wrap" style="position:relative"><div class="phone sm"><div class="status"><span>9:41</span><span class="island"></span><span>▮▮▮ ◔</span></div>
 <div class="nav inline"><span class="left">‹</span><span class="title">카카오톡 KakaoTalk</span><span class="right"><span class="glass" style="color:#4F46E5">♥</span></span></div>
 <div class="content"><div style="display:flex;gap:10px;margin-top:4px"><div class="icon lg"></div><div><div class="t" style="font-size:12px">카카오톡 KakaoTalk</div><div class="s">Kakao Corp.</div></div></div>
 <div class="l w80" style="margin-top:12px"></div><div class="l w60"></div></div>
-<div class="toast">♥ 즐겨찾기에 추가했어요</div><div class="home"></div></div><span class="n callout" style="top:26px;left:183px">6</span><span class="n callout" style="top:352px;left:-7px">7</span>
+<div class="toast" data-rl="h:44;t:탭 바 위 12 · 2초">♥ 즐겨찾기에 추가했어요</div><div class="home"></div></div><span class="n callout" style="top:26px;left:183px">6</span><span class="n callout" style="top:352px;left:-7px">7</span>
 <div class="phone-label">B. 즐겨찾기 추가 직후</div></div></div><div class="spec">
 <table><tr><th>#</th><th>컴포넌트</th><th>설명 · 제약</th></tr><tr><td><span class="n">1</span></td><td>스크린샷</td><td>가로 스크롤, 높이 <b>400pt</b>(실기기), 비율은 이미지 원본 유지, 모서리 14pt. 탭 → (선택 과제) 전체 화면 보기. 스크린샷이 0개면 섹션 숨김.</td></tr><tr><td><span class="n">2</span></td><td>설명</td><td><code>body</code>, 기본 <b>3줄</b> 말줄임. 3줄을 넘을 때만 “더 보기” 표시.</td></tr><tr><td><span class="n">3</span></td><td>더 보기</td><td>누르면 전체 펼침 (<code>descriptionExpanded</code>). 다시 접기는 없음.</td></tr><tr><td><span class="n">4</span></td><td>새로운 기능</td><td>릴리스 노트가 없으면 섹션 숨김. 날짜는 <code>yyyy.MM.dd</code>.</td></tr><tr><td><span class="n">5</span></td><td>정보</td><td>개발사 / 크기(MB, 소수 1자리) / 연령 등급 / 호환성(“iOS {최소 버전} 이상”) / 장르. 값이 없으면 “-”.</td></tr><tr><td><span class="n">6</span></td><td>♥ 토글</td><td>탭 즉시 아이콘 변경(낙관적 업데이트 금지: DB 저장 성공 후 스트림 값으로 바뀜). 실패 시 알럿 “기기에 저장하지 못했어요…”.</td></tr><tr><td><span class="n">7</span></td><td>토스트 (선택 과제)</td><td>“즐겨찾기에 추가했어요” / “즐겨찾기에서 뺐어요”. 하단 탭 바 위, 2초 후 사라짐. 구현하지 않아도 됨.</td></tr></table>
 <div class="note"><b>왜 스트림으로 상태를 받나?</b> 같은 앱이 즐겨찾기 탭에도 떠 있을 수 있다. 하트 상태를 각 화면이 따로 들고 있으면 어긋난다. DB를 단일 진실 원천으로 두고 <code>favoriteUseCase.observeIsFavorite(appID:)</code>를 구독한다.</div>
@@ -278,12 +281,12 @@
 <div class="page-head"><span class="no">p.10</span><h1>즐겨찾기</h1><span class="sub">로컬 DB 관찰 · 스와이프 삭제</span><span class="tag">FavoritesFeature</span></div>
 <div class="body"><div class="phones"><div class="phone-wrap" style="position:relative"><div class="phone sm"><div class="status"><span>9:41</span><span class="island"></span><span>▮▮▮ ◔</span></div>
 <div class="nav"><div class="large">즐겨찾기</div></div>
-<div class="content"><div class="center"><div class="big-ic">♡</div><div class="t">아직 즐겨찾기한 앱이 없어요</div><div class="s">앱 상세에서 ♡를 눌러 모아 보세요.</div><div class="btn ghost" style="width:100px;margin-top:6px">앱 검색하러 가기</div></div></div>
+<div class="content"><div class="center"><div class="big-ic">♡</div><div class="t">아직 즐겨찾기한 앱이 없어요</div><div class="s">앱 상세에서 ♡를 눌러 모아 보세요.</div><div class="btn ghost" data-rl="t:최대 200 × 52" style="width:100px;margin-top:6px">앱 검색하러 가기</div></div></div>
 <div class="tabbar"><span class=""><i>⌕</i>검색</span><span class="on"><i>♡</i>즐겨찾기</span><span class=""><i>◯</i>프로필</span></div><div class="home"></div></div><span class="n callout" style="top:180px;left:-7px">1</span><span class="n callout" style="top:258px;left:-7px">2</span>
 <div class="phone-label">A. 비어 있음</div></div><div class="phone-wrap" style="position:relative"><div class="phone sm"><div class="status"><span>9:41</span><span class="island"></span><span>▮▮▮ ◔</span></div>
 <div class="nav"><div class="large">즐겨찾기</div></div>
-<div class="content"><div class="s" style="margin-bottom:2px"><b>3개</b> · 최근 추가순</div>
-<div class="row"><div class="icon"></div><div class="lines"><div class="t">토스</div><div class="s">금융 · Viva Republica</div>
+<div class="content"><div class="s" data-rl="gt:8" style="margin-bottom:2px"><b>3개</b> · 최근 추가순</div>
+<div class="row" data-rl="h:84"><div class="icon" data-rl="sz:60"></div><div class="lines"><div class="t">토스</div><div class="s">금융 · Viva Republica</div>
 <div class="stars">★★★★★<em>4.8</em></div></div></div>
 <div class="row"><div class="icon"></div><div class="lines"><div class="t">Notion</div><div class="s">생산성 · Notion Labs</div>
 <div class="stars">★★★★½<em>4.5</em></div></div></div>
@@ -294,7 +297,7 @@
 <div class="nav"><div class="large">즐겨찾기</div></div>
 <div class="content"><div class="s" style="margin-bottom:2px"><b>3개</b> · 최근 추가순</div>
 <div class="swipe"><div style="margin-left:-30px;flex:1"><div class="row"><div class="icon"></div><div class="lines"><div class="t">토스</div><div class="s">금융 · Viva Republica</div>
-<div class="stars">★★★★★<em>4.8</em></div></div></div></div><div class="del">삭제</div></div>
+<div class="stars">★★★★★<em>4.8</em></div></div></div></div><div class="del" data-rl="t:시스템 swipeActions · .tint(.dsError)">삭제</div></div>
 <div class="row"><div class="icon"></div><div class="lines"><div class="t">Notion</div><div class="s">생산성 · Notion Labs</div>
 <div class="stars">★★★★½<em>4.5</em></div></div></div>
 </div><div class="tabbar"><span class=""><i>⌕</i>검색</span><span class="on"><i>♡</i>즐겨찾기</span><span class=""><i>◯</i>프로필</span></div><div class="home"></div></div><span class="n callout" style="top:90px;left:183px">5</span>
@@ -309,12 +312,12 @@
 </section><section class="page">
 <div class="page-head"><span class="no">p.11</span><h1>프로필</h1><span class="sub">서버 프로필 조회 · 편집 진입점</span><span class="tag">ProfileFeature</span></div>
 <div class="body"><div class="phones"><div class="phone-wrap" style="position:relative"><div class="phone "><div class="status"><span>9:41</span><span class="island"></span><span>▮▮▮ ◔</span></div>
-<div class="nav"><div class="large">프로필</div><div class="right" style="top:14px"><span class="glass">⚙</span></div></div>
+<div class="nav"><div class="large">프로필</div><div class="right" style="top:14px"><span class="glass" data-rl="t:44×44">⚙</span></div></div>
 <div class="content">
-<div style="display:flex;flex-direction:column;align-items:center;gap:4px;margin:6px 0 12px"><div class="avatar"><span class="badge-cam">✎</span></div>
-<div class="t" style="font-size:12px">Chris</div><div class="s">chris@example.com</div></div>
-<div class="group-title">계정 정보</div>
-<div class="group"><div class="row">이름<span class="end">Chris ›</span></div><div class="row">이메일<span class="end">chris@example.com ›</span></div></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:4px;margin:6px 0 12px"><div class="avatar" data-rl="sz:88;t:원형"><span class="badge-cam" data-rl="tl:28">✎</span></div>
+<div class="t" data-rl="gt:12" style="font-size:12px">Chris</div><div class="s">chris@example.com</div></div>
+<div class="group-title" data-rl="gt:24">계정 정보</div>
+<div class="group" data-rl="ml:20;tl:r 14"><div class="row" data-rl="h:44">이름<span class="end">Chris ›</span></div><div class="row">이메일<span class="end">chris@example.com ›</span></div></div>
 </div><div class="tabbar"><span class=""><i>⌕</i>검색</span><span class=""><i>♡</i>즐겨찾기</span><span class="on"><i>◯</i>프로필</span></div><div class="home"></div></div><span class="n callout" style="top:66px;left:-7px">1</span><span class="n callout" style="top:30px;left:203px">2</span><span class="n callout" style="top:178px;left:-7px">3</span><span class="n callout" style="top:204px;left:-7px">4</span>
 <div class="phone-label">A. 프로필</div></div><div class="phone-wrap" style="position:relative"><div class="phone sm"><div class="status"><span>9:41</span><span class="island"></span><span>▮▮▮ ◔</span></div>
 <div class="nav"><div class="large">프로필</div><div class="right" style="top:14px"><span class="glass">⚙</span></div></div>
@@ -332,19 +335,19 @@
 </section><section class="page">
 <div class="page-head"><span class="no">p.12</span><h1>이름 · 이메일 편집</h1><span class="sub">검증 · 저장 · delegate · dismiss</span><span class="tag">ProfileFeature</span></div>
 <div class="body"><div class="phones"><div class="phone-wrap" style="position:relative"><div class="phone sm"><div class="status"><span>9:41</span><span class="island"></span><span>▮▮▮ ◔</span></div>
-<div class="nav inline"><span class="left">‹ 프로필</span><span class="title">이름</span><span class="right"><span class="glass pill" style="color:#4F46E5">저장</span></span></div>
-<div class="content" style="padding-top:10px"><div class="field">Chris<span style="margin-left:auto;color:#8A919E">✕</span></div>
-<div class="helper"><span>2~20자</span><span>5/20</span></div></div><div class="home"></div>
+<div class="nav inline"><span class="left" data-rl="t:시스템 뒤로">‹ 프로필</span><span class="title">이름</span><span class="right"><span class="glass pill" data-rl="h:44" style="color:#4F46E5">저장</span></span></div>
+<div class="content" style="padding-top:10px"><div class="field" data-rl="gt:16;sz:높이 44;ml:20;mr:20">Chris<span data-rl="t:✕ 44×44" style="margin-left:auto;color:#8A919E">✕</span></div>
+<div class="helper" data-rl="gt:8"><span>2~20자</span><span>5/20</span></div></div><div class="home"></div>
 </div><span class="n callout" style="top:62px;left:-7px">1</span><span class="n callout" style="top:86px;left:-7px">2</span><span class="n callout" style="top:26px;left:183px">3</span>
 <div class="phone-label">A. 이름 편집</div></div><div class="phone-wrap" style="position:relative"><div class="phone sm"><div class="status"><span>9:41</span><span class="island"></span><span>▮▮▮ ◔</span></div>
-<div class="nav inline"><span class="left">‹ 프로필</span><span class="title">이메일</span><span class="right"><span class="glass pill" style="opacity:.4">저장</span></span></div>
-<div class="content" style="padding-top:10px"><div class="field error">chris@<span style="margin-left:auto;color:#8A919E">✕</span></div>
-<div class="helper error"><span>이메일 형식이 올바르지 않아요.</span></div></div><div class="home"></div>
+<div class="nav inline"><span class="left">‹ 프로필</span><span class="title">이메일</span><span class="right"><span class="glass pill" data-rl="t:비활성 40%" style="opacity:.4">저장</span></span></div>
+<div class="content" style="padding-top:10px"><div class="field error" data-rl="t:테두리 1.5 · error">chris@<span style="margin-left:auto;color:#8A919E">✕</span></div>
+<div class="helper error" data-rl="gt:8"><span>이메일 형식이 올바르지 않아요.</span></div></div><div class="home"></div>
 </div><span class="n callout" style="top:82px;left:-7px">4</span>
 <div class="phone-label">B. 입력 오류</div></div><div class="phone-wrap" style="position:relative"><div class="phone sm"><div class="status"><span>9:41</span><span class="island"></span><span>▮▮▮ ◔</span></div>
 <div class="nav inline"><span class="left">‹ 프로필</span><span class="title">이름</span><span class="right"><span class="glass pill"><span class="spinner" style="width:10px;height:10px;border-width:2px"></span></span></span></div>
 <div class="content" style="padding-top:10px"><div class="field">철수</div></div>
-<div class="dim"></div><div class="alert"><div class="at">저장하지 못했어요</div><div class="am">네트워크 연결을 확인해 주세요.</div><div class="ab"><span>확인</span></div></div><div class="home"></div>
+<div class="dim"></div><div class="alert" data-rl="t:시스템 알럿"><div class="at">저장하지 못했어요</div><div class="am">네트워크 연결을 확인해 주세요.</div><div class="ab"><span>확인</span></div></div><div class="home"></div>
 </div><span class="n callout" style="top:26px;left:183px">5</span><span class="n callout" style="top:150px;left:-7px">6</span>
 <div class="phone-label">C. 저장 중 → 실패</div></div></div><div class="spec">
 <table><tr><th>#</th><th>컴포넌트</th><th>설명 · 제약</th></tr><tr><td><span class="n">1</span></td><td>입력 필드</td><td>진입 시 현재 값으로 채우고 <b>자동 포커스</b>(<code>@FocusState</code>). ✕로 비우기. 리턴 키 = 저장.</td></tr><tr><td><span class="n">2</span></td><td>도움말 · 글자 수</td><td>이름: “2~20자” + “N/20” (앞뒤 공백 제외 기준). 이메일: 글자 수 표시 없음.</td></tr><tr><td><span class="n">3</span></td><td>저장 버튼</td><td>툴바 오른쪽 (<code>topBarTrailing</code>). <b>값이 바뀌었고 형식이 맞을 때만</b> 활성.</td></tr><tr><td><span class="n">4</span></td><td>인라인 오류</td><td>입력이 멈추고 0.5초 뒤 또는 저장 시도 시 표시. 문구는 <code>ValidationError.message</code>.</td></tr><tr><td><span class="n">5</span></td><td>저장 중</td><td>저장 버튼 자리에 스피너, 입력 비활성, 뒤로 가기 허용 (요청은 취소).</td></tr><tr><td><span class="n">6</span></td><td>실패 알럿</td><td>제목 “저장하지 못했어요”, 메시지 = <code>DomainError.message</code>, 버튼 “확인”. 입력값 유지.</td></tr></table>
@@ -360,13 +363,13 @@
 <div class="nav"><div class="large">프로필</div></div>
 <div class="content"><div style="display:flex;flex-direction:column;align-items:center;gap:4px;margin:6px 0"><div class="avatar"><span class="badge-cam">✎</span></div></div></div>
 <div class="dim"></div>
-<div class="sheet" style="height:300px"><div class="grabber"></div><div class="section" style="justify-content:center">사진 (시스템 PhotosPicker)</div>
+<div class="sheet" data-rl="t:시스템 PhotosPicker" style="height:300px"><div class="grabber"></div><div class="section" style="justify-content:center">사진 (시스템 PhotosPicker)</div>
 <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:3px"><div class="skeleton" style="height:40px"></div><div class="skeleton" style="height:40px"></div><div class="skeleton" style="height:40px"></div><div class="skeleton" style="height:40px"></div><div class="skeleton" style="height:40px"></div><div class="skeleton" style="height:40px"></div><div class="skeleton" style="height:40px"></div><div class="skeleton" style="height:40px"></div><div class="skeleton" style="height:40px"></div><div class="skeleton" style="height:40px"></div><div class="skeleton" style="height:40px"></div><div class="skeleton" style="height:40px"></div><div class="skeleton" style="height:40px"></div><div class="skeleton" style="height:40px"></div><div class="skeleton" style="height:40px"></div><div class="skeleton" style="height:40px"></div></div></div></div><span class="n callout" style="top:66px;left:-7px">1</span><span class="n callout" style="top:190px;left:-7px">2</span>
 <div class="phone-label">A. 사진 선택</div></div><div class="phone-wrap" style="position:relative"><div class="phone sm"><div class="status"><span>9:41</span><span class="island"></span><span>▮▮▮ ◔</span></div>
 <div class="nav"><div class="large">프로필</div></div>
 <div class="content"><div style="display:flex;flex-direction:column;align-items:center;gap:4px;margin:6px 0 12px">
-<div class="avatar" style="display:flex;align-items:center;justify-content:center"><div class="spinner"></div></div>
-<div class="t" style="font-size:12px">Chris</div><div class="s">사진을 올리는 중…</div></div></div>
+<div class="avatar" data-rl="sz:88" style="display:flex;align-items:center;justify-content:center"><div class="spinner"></div></div>
+<div class="t" style="font-size:12px">Chris</div><div class="s" data-rl="t:callout · textSecondary">사진을 올리는 중…</div></div></div>
 <div class="tabbar"><span class=""><i>⌕</i>검색</span><span class=""><i>♡</i>즐겨찾기</span><span class="on"><i>◯</i>프로필</span></div><div class="home"></div></div><span class="n callout" style="top:66px;left:-7px">3</span>
 <div class="phone-label">B. 업로드 중</div></div><div class="phone-wrap" style="position:relative"><div class="phone sm"><div class="status"><span>9:41</span><span class="island"></span><span>▮▮▮ ◔</span></div>
 <div class="nav"><div class="large">프로필</div></div>
@@ -385,15 +388,15 @@
 <div class="body"><div class="phones"><div class="phone-wrap" style="position:relative"><div class="phone "><div class="status"><span>9:41</span><span class="island"></span><span>▮▮▮ ◔</span></div>
 <div class="nav inline"><span class="left">‹ 프로필</span><span class="title">설정</span></div>
 <div class="content" style="padding-top:6px">
-<div class="group-title">화면</div><div class="group" style="padding:8px 9px"><div class="seg"><span>시스템</span><span class="on">라이트</span><span>다크</span></div></div>
-<div class="group-title">데이터</div><div class="group"><div class="row" style="color:#B91C1C">최근 검색어 전체 삭제</div></div>
+<div class="group-title" data-rl="gt:16">화면</div><div class="group" data-rl="ml:20;tl:r 14" style="padding:8px 9px"><div class="seg" data-rl="t:Picker(.segmented)"><span>시스템</span><span class="on">라이트</span><span>다크</span></div></div>
+<div class="group-title" data-rl="gt:24">데이터</div><div class="group"><div class="row" data-rl="h:44" style="color:#B91C1C">최근 검색어 전체 삭제</div></div>
 <div class="group-title">정보</div><div class="group"><div class="row">앱 버전<span class="end">1.0.0 (1)</span></div><div class="row">서버 주소<span class="end">localhost:8000</span></div><div class="row">오픈소스 라이선스<span class="end">›</span></div></div>
 </div><div class="home"></div></div><span class="n callout" style="top:82px;left:-7px">1</span><span class="n callout" style="top:140px;left:-7px">2</span><span class="n callout" style="top:196px;left:-7px">3</span><span class="n callout" style="top:222px;left:-7px">4</span><span class="n callout" style="top:248px;left:-7px">5</span>
 <div class="phone-label">A. 설정</div></div><div class="phone-wrap" style="position:relative"><div class="phone sm"><div class="status"><span>9:41</span><span class="island"></span><span>▮▮▮ ◔</span></div>
 <div class="nav inline"><span class="left">‹ 프로필</span><span class="title">설정</span></div>
 <div class="content"></div><div class="dim"></div>
 <div class="sheet"><div class="s" style="text-align:center;margin-bottom:6px">최근 검색어를 모두 삭제할까요?<br>삭제한 검색어는 되돌릴 수 없어요.</div>
-<div class="btn danger" style="margin-bottom:5px">전체 삭제</div><div class="btn ghost">취소</div></div></div><span class="n callout" style="top:330px;left:-7px">6</span>
+<div class="btn danger" data-rl="t:시스템 confirmationDialog" style="margin-bottom:5px">전체 삭제</div><div class="btn ghost">취소</div></div></div><span class="n callout" style="top:330px;left:-7px">6</span>
 <div class="phone-label">B. 전체 삭제 확인</div></div></div><div class="spec">
 <table><tr><th>#</th><th>컴포넌트</th><th>설명 · 제약</th></tr><tr><td><span class="n">1</span></td><td>화면 모드</td><td>Segmented Picker: 시스템 / 라이트 / 다크. 즉시 적용, 앱 재실행 후에도 유지.</td></tr><tr><td><span class="n">2</span></td><td>최근 검색어 전체 삭제</td><td>빨간 글자 행. 탭 → 확인 다이얼로그(B). 최근 검색어가 0개면 비활성.</td></tr><tr><td><span class="n">3</span></td><td>앱 버전</td><td><code>CFBundleShortVersionString (CFBundleVersion)</code>.</td></tr><tr><td><span class="n">4</span></td><td>서버 주소</td><td><b>Debug 빌드에서만</b> 표시. Info.plist <code>APIBaseURL</code>의 host:port.</td></tr><tr><td><span class="n">5</span></td><td>오픈소스 라이선스</td><td>push로 목록 표시: Pretendard(OFL-1.1), TCA, Alamofire, Kingfisher, SQLiteData (MIT). 텍스트만.</td></tr><tr><td><span class="n">6</span></td><td>확인 다이얼로그</td><td><code>confirmationDialog</code>. 메시지 “최근 검색어를 모두 삭제할까요? 삭제한 검색어는 되돌릴 수 없어요.” 버튼 “전체 삭제”(destructive) / “취소”.</td></tr></table>
 <div class="cols">
@@ -439,4 +442,5 @@
 </div></div>
 <div class="page-foot"><span>AppScout 와이어프레임 v1.0 · 2026-11-10</span><span>16 / 16</span></div>
 </section>
+<script src="redline.js"></script>
 </body></html>

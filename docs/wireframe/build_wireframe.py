@@ -2,10 +2,13 @@
 
 사용법 (저장소 루트에서):
   python3 docs/wireframe/build_wireframe.py docs/wireframe/index.html
-  "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --no-pdf-header-footer \
+  "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --no-pdf-header-footer --virtual-time-budget=5000 \
     --print-to-pdf=docs/wireframe/AppScout_Wireframe.pdf "file://$PWD/docs/wireframe/index.html"
 
 폰트: Pretendard가 시스템에 설치돼 있어야 PDF에 반영된다 (Projects/Shared/DesignSystem/Resources/Fonts).
+
+레드라인: 폰 안 요소에 rl("h:44;ml:20") 처럼 붙이면 redline.js가 인쇄 직전에 실제 위치를 재서 분홍 치수선을 그린다.
+숫자는 실제 구현 값(pt). 문법은 redline.js 맨 위 주석 참고. Chrome 명령에 --virtual-time-budget=5000 을 붙여 스크립트가 끝난 뒤 인쇄되게 한다.
 """
 import sys
 from pathlib import Path
@@ -51,8 +54,8 @@ def page(no, title, sub, body, tag=""):
 </section>'''
 
 
-def app_row(name="앱 이름", sub="장르 · 개발사", stars="★★★★☆", score="4.5 · 1.2만", trailing=""):
-    return f'''<div class="row"><div class="icon"></div><div class="lines"><div class="t">{name}</div><div class="s">{sub}</div>
+def app_row(name="앱 이름", sub="장르 · 개발사", stars="★★★★☆", score="4.5 · 1.2만", trailing="", row_rl="", icon_rl=""):
+    return f'''<div class="row"{rl(row_rl) if row_rl else ""}><div class="icon"{rl(icon_rl) if icon_rl else ""}></div><div class="lines"><div class="t">{name}</div><div class="s">{sub}</div>
 <div class="stars">{stars}<em>{score}</em></div></div>{trailing}</div>'''
 
 
@@ -64,6 +67,11 @@ def spec_table(rows, head=("#", "컴포넌트", "설명 · 제약")):
 
 def ul(items):
     return "<ul>" + "".join(f"<li>{i}</li>" for i in items) + "</ul>"
+
+
+def rl(spec):
+    """레드라인 치수 속성. 문법은 redline.js 맨 위 주석 참고. 숫자는 실제 구현 값(pt)."""
+    return f' data-rl="{spec}"'
 
 
 def nn(x):
@@ -111,7 +119,8 @@ pages.append(f'''<section class="page" style="justify-content:space-between">
     · 화면 위 <span class="n">1</span> 번호는 오른쪽 명세표의 같은 번호와 대응합니다.<br>
     · <code>monospace</code> 글자는 TCA Action·State 이름 제안입니다. (구현 시 바꿔도 됨)<br>
     · 색·글꼴은 실제 디자인 토큰이 아니라 배치를 위한 회색조 표현입니다. 실제 값은 p.16 / design-system.md.<br>
-    · 모든 문구(알럿·빈 상태)는 그대로 써도 되는 최종 문구입니다.
+    · 모든 문구(알럿·빈 상태)는 그대로 써도 되는 최종 문구입니다.<br>
+    · 화면 위 <b style="color:#E5007E">분홍 선·숫자</b>는 실제 구현 치수(pt)입니다. 자세한 읽는 법은 p.3.
   </div>
 </div>
 <div class="page-foot"><span>AppScout 와이어프레임 v1.0 · {DATE}</span><span>1 / {TOTAL}</span></div>
@@ -173,12 +182,14 @@ pages.append(page(2, "화면 흐름도", "탭 3개와 push / sheet 관계", flow
 
 # ---------------------------------------------------------------- p.3 탭 구조
 p3_phone = phone("탭 구조 (검색 탭 선택)", f'''{STATUS}
-<div class="nav"><div class="large">검색</div><div class="right" style="top:14px"><span class="glass">⚙</span></div></div>
-<div class="content"><div class="searchbar">⌕ 앱 이름이나 키워드를 검색해 보세요</div>
+<div class="nav"{rl("h:52")}><div class="large">검색</div><div class="right" style="top:14px"><span class="glass"{rl("t:44×44")}>⚙</span></div></div>
+<div class="content"><div class="searchbar"{rl("ml:20;mr:20")}>⌕ 앱 이름이나 키워드를 검색해 보세요</div>
 <div class="l w80"></div><div class="l w60"></div><div class="l w70"></div></div>
-{tabbar("search")}
+<div{rl("t:시스템 탭 바 · 직접 그리지 않음")} style="height:0"></div>{tabbar("search")}
 {n(1, 30, 10)}{n(2, 410, 20)}{n(3, 66, 180)}''')
 p3_spec = f'''<div class="spec">
+<div class="note"><b>레드라인 읽는 법</b> · <span class="rl-legend"><i>44</i> 분홍 선 = 간격·크기 (pt)</span> &nbsp; <span class="rl-legend"><s>r 14</s> 테두리 배지 = 크기·모양·토큰 메모</span><br>
+그림은 축소본이라 픽셀과 숫자가 다릅니다. <b>숫자(pt)를 기준으로</b> 구현하세요. 시스템이 그리는 요소(탭 바, 내비게이션 바, 알럿, 시트)는 치수를 적지 않았습니다.</div>
 <h2>구성</h2>
 {spec_table([
   (nn(1), "내비게이션 타이틀", "탭 루트는 <code>.navigationTitle</code> + <code>.toolbarTitleDisplayMode(.inlineLarge)</code> (왼쪽 큰 제목, 스크롤 시 축소). 텍스트를 툴바 아이템으로 넣지 않는다 (iOS 26에서 유리 버블에 갇힘)."),
@@ -214,15 +225,15 @@ pages.append(page(3, "탭 구조 · 공통 규칙", "RootFeature · 모든 화�
 # ---------------------------------------------------------------- p.4 검색 초기
 p4a = phone("A. 최근 검색어 있음", f'''{STATUS}
 <div class="nav"><div class="large">검색</div></div>
-<div class="content"><div class="searchbar">⌕ 앱 이름이나 키워드를 검색해 보세요</div>
-<div class="section">최근 검색어 <a>전체 삭제</a></div>
-{"".join(f'<div class="row"><span class="muted">↺</span>{w}<span class="end">✕</span></div>' for w in ["카카오", "토스", "notion", "가계부", "날씨"])}
+<div class="content"><div class="searchbar"{rl("gt:8;h:44;ml:20")}>⌕ 앱 이름이나 키워드를 검색해 보세요</div>
+<div class="section"{rl("gt:12;h:44")}>최근 검색어 <a>전체 삭제</a></div>
+{"".join(f'<div class="row"{rl("h:44") if i == 0 else ""}><span class="muted"{rl("gl:12") if i == 0 else ""}>↺</span><span>{w}</span><span class="end"{rl("t:✕ 44×44") if i == 1 else ""}>✕</span></div>' for i, w in enumerate(["카카오", "토스", "notion", "가계부", "날씨"]))}
 </div>{tabbar("search")}
 {n(1, 56, 4)}{n(2, 92, 4)}{n(3, 92, 160)}{n(4, 120, 4)}{n(5, 120, 186)}''')
 p4b = phone("B. 최근 검색어 없음", f'''{STATUS}
 <div class="nav"><div class="large">검색</div></div>
 <div class="content"><div class="searchbar">⌕ 앱 이름이나 키워드를 검색해 보세요</div>
-<div class="center" style="top:40px"><div class="big-ic">⌕</div><div class="t">어떤 앱을 찾고 있나요?</div><div class="s">앱 이름, 개발사, 장르로 검색할 수 있어요.</div></div>
+<div class="center" style="top:40px"><div class="big-ic"{rl("t:44pt · textTertiary")}>⌕</div><div class="t"{rl("gt:20")}>어떤 앱을 찾고 있나요?</div><div class="s">앱 이름, 개발사, 장르로 검색할 수 있어요.</div></div>
 </div>{tabbar("search")}{n(6, 200, 30)}''')
 p4_spec = f'''<div class="spec">
 <h2>컴포넌트</h2>
@@ -256,7 +267,7 @@ pages.append(page(4, "검색 — 초기 / 최근 검색어", "검색어가 비�
 # ---------------------------------------------------------------- p.5 입력·로딩·결과
 p5a = phone("A. 입력 중 (300ms 대기)", f'''{STATUS}
 <div class="nav"><div class="large">검색</div></div>
-<div class="content"><div class="searchbar filled">⌕ 카카<span class="x">✕</span></div>
+<div class="content"><div class="searchbar filled">⌕ 카카<span class="x"{rl("t:44×44")}>✕</span></div>
 <div class="section">최근 검색어 <a>전체 삭제</a></div>
 {"".join(f'<div class="row"><span class="muted">↺</span>{w}<span class="end">✕</span></div>' for w in ["카카오", "토스"])}
 </div>{tabbar("search")}{n(1, 56, 4)}{n(2, 56, 186)}''', cls="sm")
@@ -268,8 +279,8 @@ p5b = phone("B. 첫 로딩", f'''{STATUS}
 p5c = phone("C. 결과", f'''{STATUS}
 <div class="nav"><div class="large">검색</div></div>
 <div class="content"><div class="searchbar filled">⌕ 카카오<span class="x">✕</span></div>
-<div class="s" style="margin:-2px 0 2px"><b>검색 결과 11개</b></div>
-{app_row("카카오톡 KakaoTalk", "소셜 네트워킹 · Kakao Corp.", "★★★½☆", "3.6 · 94.2만")}
+<div class="s"{rl("gt:16")} style="margin:-2px 0 2px"><b>검색 결과 11개</b></div>
+{app_row("카카오톡 KakaoTalk", "소셜 네트워킹 · Kakao Corp.", "★★★½☆", "3.6 · 94.2만", row_rl="h:84", icon_rl="sz:60")}
 {app_row("카카오 T", "여행 · Kakao Mobility", "★★★★★", "4.7 · 46.4만")}
 {app_row("카카오맵", "내비게이션 · Kakao Corp.", "★★★★☆", "4.5 · 12.1만")}
 {app_row("카카오뱅크", "금융 · KakaoBank", "★★★★★", "4.8 · 30.0만")}
@@ -306,12 +317,12 @@ pages.append(page(5, "검색 — 입력 · 로딩 · 결과", "디바운스와 �
 p6a = phone("A. 결과 없음", f'''{STATUS}
 <div class="nav"><div class="large">검색</div></div>
 <div class="content"><div class="searchbar filled">⌕ zzzzqq<span class="x">✕</span></div>
-<div class="center" style="top:40px"><div class="big-ic">⌕</div><div class="t">‘zzzzqq’ 검색 결과가 없어요</div><div class="s">철자를 확인하거나 다른 키워드로 검색해 보세요.</div></div>
+<div class="center" style="top:40px"><div class="big-ic">⌕</div><div class="t"{rl("gt:20")}>‘zzzzqq’ 검색 결과가 없어요</div><div class="s">철자를 확인하거나 다른 키워드로 검색해 보세요.</div></div>
 </div>{tabbar("search")}{n(1, 200, 24)}''')
 p6b = phone("B. 에러 (결과 없음 상태)", f'''{STATUS}
 <div class="nav"><div class="large">검색</div></div>
 <div class="content"><div class="searchbar filled">⌕ 카카오<span class="x">✕</span></div>
-<div class="center" style="top:40px"><div class="big-ic">⚠︎</div><div class="t">문제가 발생했어요</div><div class="s">네트워크 연결을 확인해 주세요.</div><div class="btn ghost" style="width:90px;margin-top:6px">다시 시도</div></div>
+<div class="center" style="top:40px"><div class="big-ic">⚠︎</div><div class="t">문제가 발생했어요</div><div class="s">네트워크 연결을 확인해 주세요.</div><div class="btn ghost"{rl("t:최대 200 × 52")} style="width:90px;margin-top:6px">다시 시도</div></div>
 </div>{tabbar("search")}{n(2, 200, 24)}{n(3, 262, 50)}''')
 p6_spec = f'''<div class="spec">
 {spec_table([
@@ -342,13 +353,13 @@ p6_spec = f'''<div class="spec">
 pages.append(page(6, "검색 — 결과 없음 · 에러", "검색 실패와 빈 결과", f'<div class="phones">{p6a}{p6b}</div>{p6_spec}', tag="SearchFeature"))
 
 # ---------------------------------------------------------------- p.7 셀·무한 스크롤
-cell_big = f'''<div class="phone-wrap"><div style="width:330px;border:1.5px dashed var(--line);border-radius:10px;padding:12px 14px;position:relative">
-<div style="display:flex;gap:12px;align-items:center">
- <div class="icon" style="width:60px;height:60px;border-radius:13px"></div>
+cell_big = f'''<div class="phone-wrap"><div data-rl-host style="width:330px;border:1.5px dashed var(--line);border-radius:10px;padding:12px 14px;position:relative">
+<div{rl("h:84 (위아래 8)")} style="display:flex;gap:12px;align-items:center">
+ <div class="icon"{rl("sz:60×60;gl:12;t:r 13.4")} style="width:60px;height:60px;border-radius:13px"></div>
  <div style="flex:1"><div style="font-size:14px;font-weight:700">카카오톡 KakaoTalk</div>
- <div style="font-size:11px;color:#4B5563">소셜 네트워킹 · Kakao Corp.</div>
- <div class="stars" style="font-size:11px">★★★½☆<em>3.6 · 94.2만</em></div></div>
- <div style="font-size:11px;color:#8A919E">무료</div>
+ <div{rl("gt:4")} style="font-size:11px;color:#4B5563">소셜 네트워킹 · Kakao Corp.</div>
+ <div class="stars"{rl("gt:4")} style="font-size:11px">★★★½☆<em>3.6 · 94.2만</em></div></div>
+ <div{rl("t:caption")} style="font-size:11px;color:#8A919E">무료</div>
 </div>
 <span class="n callout" style="top:-7px;left:14px">1</span><span class="n callout" style="top:-7px;left:84px">2</span>
 <span class="n callout" style="top:24px;left:323px">5</span><span class="n callout" style="top:34px;left:-7px">3</span><span class="n callout" style="top:54px;left:-7px">4</span>
@@ -357,9 +368,9 @@ cell_big = f'''<div class="phone-wrap"><div style="width:330px;border:1.5px dash
 <div class="phone sm" style="height:300px">{STATUS}
 <div class="content" style="padding-top:4px">
 {app_row("…", "…")}{app_row("…", "…")}
-<div class="row" style="justify-content:center;border:0"><div class="spinner" style="width:14px;height:14px"></div><span class="s">불러오는 중</span></div>
-<div class="row" style="justify-content:center;border:0;flex-direction:column;gap:3px"><span class="s">더 불러오지 못했어요.</span><span class="btn ghost" style="height:22px;width:70px;font-size:8.5px">다시 시도</span></div>
-<div class="row" style="justify-content:center;border:0"><span class="s">모든 결과를 확인했어요</span></div>
+<div class="row"{rl("h:52")} style="justify-content:center;border:0"><div class="spinner" style="width:14px;height:14px"></div><span class="s">불러오는 중</span></div>
+<div class="row"{rl("h:52")} style="justify-content:center;border:0;flex-direction:column;gap:3px"><span class="s">더 불러오지 못했어요.</span><span class="btn ghost" style="height:22px;width:70px;font-size:8.5px">다시 시도</span></div>
+<div class="row"{rl("h:52")} style="justify-content:center;border:0"><span class="s">모든 결과를 확인했어요</span></div>
 </div>
 {n(6, 124, 30)}{n(7, 150, 30)}{n(8, 194, 30)}</div><div class="phone-label">목록 하단 3가지 상태</div></div>'''
 p7_spec = f'''<div class="spec">
@@ -385,22 +396,22 @@ pages.append(page(7, "결과 셀 · 무한 스크롤", "AppRowView와 페이지 
 
 # ---------------------------------------------------------------- p.8 상세 로딩·상단
 p8a = phone("A. 진입 직후 (상세 로딩 중)", f'''{STATUS}
-<div class="nav inline"><span class="left">‹</span><span class="title"></span><span class="right"><span class="glass">♡</span></span></div>
+<div class="nav inline"><span class="left">‹</span><span class="title"></span><span class="right"><span class="glass"{rl("t:44×44")}>♡</span></span></div>
 <div class="content">
-<div style="display:flex;gap:10px;margin-top:4px"><div class="icon lg"></div><div><div class="t" style="font-size:12px">카카오톡 KakaoTalk</div><div class="s">Kakao Corp.</div><div class="stars">★★★½☆<em>3.6 · 94.2만</em></div></div></div>
-<div class="skeleton" style="height:28px;margin:10px 0"></div>
+<div style="display:flex;gap:10px;margin-top:4px"><div class="icon lg"{rl("sz:100×100")}></div><div><div class="t" style="font-size:12px">카카오톡 KakaoTalk</div><div class="s">Kakao Corp.</div><div class="stars">★★★½☆<em>3.6 · 94.2만</em></div></div></div>
+<div class="skeleton"{rl("t:스켈레톤 · surface")} style="height:28px;margin:10px 0"></div>
 <div class="skeleton" style="height:120px;margin-bottom:8px"></div>
 <div class="skeleton" style="height:8px;width:80%;margin:4px 0"></div><div class="skeleton" style="height:8px;width:60%"></div>
 </div>{HOME}{n(1, 64, 4)}{n(2, 128, 4)}{n(3, 26, 186)}''')
 p8b = phone("B. 로딩 완료 (상단)", f'''{STATUS}
 <div class="nav inline"><span class="left">‹</span><span class="title">카카오톡 KakaoTalk</span><span class="right"><span class="glass" style="color:#4F46E5">♥</span></span></div>
 <div class="content">
-<div style="display:flex;gap:10px;margin-top:4px"><div class="icon lg"></div><div style="flex:1"><div class="t" style="font-size:12px">카카오톡 KakaoTalk</div><div class="s">Kakao Corp.</div>
-<div style="margin-top:3px"><span class="chip">소셜 네트워킹</span> <span class="chip">생산성</span></div></div></div>
-<div style="display:flex;justify-content:space-around;text-align:center;margin:10px 0;font-size:8px;color:#4B5563">
+<div{rl("gt:8")} style="display:flex;gap:10px;margin-top:4px"><div class="icon lg"{rl("sz:100×100;gl:12")}></div><div style="flex:1"><div class="t" style="font-size:12px">카카오톡 KakaoTalk</div><div class="s">Kakao Corp.</div>
+<div{rl("gt:8")} style="margin-top:3px"><span class="chip">소셜 네트워킹</span> <span class="chip">생산성</span></div></div></div>
+<div{rl("gt:16;h:70")} style="display:flex;justify-content:space-around;text-align:center;margin:10px 0;font-size:8px;color:#4B5563">
 <div><b style="font-size:10px;color:#111">3.6</b><br>★★★½☆</div><div><b style="font-size:10px;color:#111">94.2만</b><br>평가</div><div><b style="font-size:10px;color:#111">4+</b><br>연령</div><div><b style="font-size:10px;color:#111">무료</b><br>가격</div></div>
-<div class="btn">App Store에서 보기</div>
-<div class="section" style="margin-top:10px">미리 보기</div><div class="shots"><div class="shot"></div><div class="shot"></div><div class="shot"></div></div>
+<div class="btn"{rl("gt:16;sz:높이 52;ml:20;mr:20")}>App Store에서 보기</div>
+<div class="section"{rl("gt:24")} style="margin-top:10px">미리 보기</div><div class="shots"{rl("gt:12")}><div class="shot"></div><div class="shot"></div><div class="shot"></div></div>
 </div>{HOME}{n(4, 94, 4)}{n(5, 128, 4)}{n(6, 186, 4)}''')
 p8_spec = f'''<div class="spec">
 {spec_table([
@@ -431,18 +442,18 @@ pages.append(page(8, "상세 — 로딩 · 상단 정보", "결과/즐겨찾기 
 p9a = phone("A. 본문 (스크롤 아래)", f'''{STATUS}
 <div class="nav inline"><span class="left">‹</span><span class="title">카카오톡 KakaoTalk</span><span class="right"><span class="glass">♡</span></span></div>
 <div class="content">
-<div class="shots"><div class="shot"></div><div class="shot"></div><div class="shot"></div></div>
-<div class="section">설명</div><div class="l w90"></div><div class="l w80"></div><div class="l w70"></div><div class="s" style="color:#4F46E5;text-align:right">더 보기</div>
-<div class="section">새로운 기능 <a>버전 25.9.0 · 2026.11.03</a></div><div class="l w80"></div><div class="l w50"></div>
+<div class="shots"><div class="shot"{rl("hl:400;gl:12;t:r 14")}></div><div class="shot"></div><div class="shot"></div></div>
+<div class="section"{rl("gt:24")}>설명</div><div class="l w90"{rl("t:body · 최대 3줄")}></div><div class="l w80"></div><div class="l w70"></div><div class="s"{rl("t:44 터치")} style="color:#4F46E5;text-align:right">더 보기</div>
+<div class="section"{rl("gt:24")}>새로운 기능 <a>버전 25.9.0 · 2026.11.03</a></div><div class="l w80"></div><div class="l w50"></div>
 <div class="section">정보</div>
-<div class="kv"><span>개발사</span><span>Kakao Corp.</span></div><div class="kv"><span>크기</span><span>393.2MB</span></div>
+<div class="kv"{rl("h:44")}><span>개발사</span><span>Kakao Corp.</span></div><div class="kv"><span>크기</span><span>393.2MB</span></div>
 <div class="kv"><span>연령 등급</span><span>4+</span></div><div class="kv"><span>호환성</span><span>iOS 16.0 이상</span></div>
 </div>{HOME}{n(1, 54, 4)}{n(2, 184, 4)}{n(3, 200, 186)}{n(4, 236, 4)}{n(5, 290, 4)}''')
 p9b = phone("B. 즐겨찾기 추가 직후", f'''{STATUS}
 <div class="nav inline"><span class="left">‹</span><span class="title">카카오톡 KakaoTalk</span><span class="right"><span class="glass" style="color:#4F46E5">♥</span></span></div>
 <div class="content"><div style="display:flex;gap:10px;margin-top:4px"><div class="icon lg"></div><div><div class="t" style="font-size:12px">카카오톡 KakaoTalk</div><div class="s">Kakao Corp.</div></div></div>
 <div class="l w80" style="margin-top:12px"></div><div class="l w60"></div></div>
-<div class="toast">♥ 즐겨찾기에 추가했어요</div>{HOME}{n(6, 26, 186)}{n(7, 352, 8)}''', cls="sm")
+<div class="toast"{rl("h:44;t:탭 바 위 12 · 2초")}>♥ 즐겨찾기에 추가했어요</div>{HOME}{n(6, 26, 186)}{n(7, 352, 8)}''', cls="sm")
 p9_spec = f'''<div class="spec">
 {spec_table([
   (nn(1), "스크린샷", "가로 스크롤, 높이 <b>400pt</b>(실기기), 비율은 이미지 원본 유지, 모서리 14pt. 탭 → (선택 과제) 전체 화면 보기. 스크린샷이 0개면 섹션 숨김."),
@@ -461,19 +472,19 @@ pages.append(page(9, "상세 — 스크린샷 · 정보 · 즐겨찾기", "AppDe
 # ---------------------------------------------------------------- p.10 즐겨찾기
 p10a = phone("A. 비어 있음", f'''{STATUS}
 <div class="nav"><div class="large">즐겨찾기</div></div>
-<div class="content"><div class="center"><div class="big-ic">♡</div><div class="t">아직 즐겨찾기한 앱이 없어요</div><div class="s">앱 상세에서 ♡를 눌러 모아 보세요.</div><div class="btn ghost" style="width:100px;margin-top:6px">앱 검색하러 가기</div></div></div>
+<div class="content"><div class="center"><div class="big-ic">♡</div><div class="t">아직 즐겨찾기한 앱이 없어요</div><div class="s">앱 상세에서 ♡를 눌러 모아 보세요.</div><div class="btn ghost"{rl("t:최대 200 × 52")} style="width:100px;margin-top:6px">앱 검색하러 가기</div></div></div>
 {tabbar("fav")}{n(1, 180, 24)}{n(2, 258, 46)}''', cls="sm")
 p10b = phone("B. 목록", f'''{STATUS}
 <div class="nav"><div class="large">즐겨찾기</div></div>
-<div class="content"><div class="s" style="margin-bottom:2px"><b>3개</b> · 최근 추가순</div>
-{app_row("토스", "금융 · Viva Republica", "★★★★★", "4.8")}
+<div class="content"><div class="s"{rl("gt:8")} style="margin-bottom:2px"><b>3개</b> · 최근 추가순</div>
+{app_row("토스", "금융 · Viva Republica", "★★★★★", "4.8", row_rl="h:84", icon_rl="sz:60")}
 {app_row("Notion", "생산성 · Notion Labs", "★★★★½", "4.5")}
 {app_row("카카오톡 KakaoTalk", "소셜 네트워킹 · Kakao", "★★★½☆", "3.6")}
 </div>{tabbar("fav")}{n(3, 64, 4)}{n(4, 84, 4)}''', cls="sm")
 p10c = phone("C. 스와이프 삭제", f'''{STATUS}
 <div class="nav"><div class="large">즐겨찾기</div></div>
 <div class="content"><div class="s" style="margin-bottom:2px"><b>3개</b> · 최근 추가순</div>
-<div class="swipe"><div style="margin-left:-30px;flex:1">{app_row("토스", "금융 · Viva Republica", "★★★★★", "4.8")}</div><div class="del">삭제</div></div>
+<div class="swipe"><div style="margin-left:-30px;flex:1">{app_row("토스", "금융 · Viva Republica", "★★★★★", "4.8")}</div><div class="del"{rl("t:시스템 swipeActions · .tint(.dsError)")}>삭제</div></div>
 {app_row("Notion", "생산성 · Notion Labs", "★★★★½", "4.5")}
 </div>{tabbar("fav")}{n(5, 90, 168)}''', cls="sm")
 p10_spec = f'''<div class="spec">
@@ -503,12 +514,12 @@ pages.append(page(10, "즐겨찾기", "로컬 DB 관찰 · 스와이프 삭제",
 
 # ---------------------------------------------------------------- p.11 프로필
 p11a = phone("A. 프로필", f'''{STATUS}
-<div class="nav"><div class="large">프로필</div><div class="right" style="top:14px"><span class="glass">⚙</span></div></div>
+<div class="nav"><div class="large">프로필</div><div class="right" style="top:14px"><span class="glass"{rl("t:44×44")}>⚙</span></div></div>
 <div class="content">
-<div style="display:flex;flex-direction:column;align-items:center;gap:4px;margin:6px 0 12px"><div class="avatar"><span class="badge-cam">✎</span></div>
-<div class="t" style="font-size:12px">Chris</div><div class="s">chris@example.com</div></div>
-<div class="group-title">계정 정보</div>
-<div class="group"><div class="row">이름<span class="end">Chris ›</span></div><div class="row">이메일<span class="end">chris@example.com ›</span></div></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:4px;margin:6px 0 12px"><div class="avatar"{rl("sz:88;t:원형")}><span class="badge-cam"{rl("tl:28")}>✎</span></div>
+<div class="t"{rl("gt:12")} style="font-size:12px">Chris</div><div class="s">chris@example.com</div></div>
+<div class="group-title"{rl("gt:24")}>계정 정보</div>
+<div class="group"{rl("ml:20;tl:r 14")}><div class="row"{rl("h:44")}>이름<span class="end">Chris ›</span></div><div class="row">이메일<span class="end">chris@example.com ›</span></div></div>
 </div>{tabbar("profile")}{n(1, 66, 50)}{n(2, 30, 186)}{n(3, 178, 4)}{n(4, 204, 4)}''')
 p11b = phone("B. 첫 로딩 / 실패", f'''{STATUS}
 <div class="nav"><div class="large">프로필</div><div class="right" style="top:14px"><span class="glass">⚙</span></div></div>
@@ -541,19 +552,19 @@ pages.append(page(11, "프로필", "서버 프로필 조회 · 편집 진입점"
 
 # ---------------------------------------------------------------- p.12 이름·이메일 편집
 p12a = phone("A. 이름 편집", f'''{STATUS}
-<div class="nav inline"><span class="left">‹ 프로필</span><span class="title">이름</span><span class="right"><span class="glass pill" style="color:#4F46E5">저장</span></span></div>
-<div class="content" style="padding-top:10px"><div class="field">Chris<span style="margin-left:auto;color:#8A919E">✕</span></div>
-<div class="helper"><span>2~20자</span><span>5/20</span></div></div>{HOME}
+<div class="nav inline"><span class="left"{rl("t:시스템 뒤로")}>‹ 프로필</span><span class="title">이름</span><span class="right"><span class="glass pill"{rl("h:44")} style="color:#4F46E5">저장</span></span></div>
+<div class="content" style="padding-top:10px"><div class="field"{rl("gt:16;sz:높이 44;ml:20;mr:20")}>Chris<span{rl("t:✕ 44×44")} style="margin-left:auto;color:#8A919E">✕</span></div>
+<div class="helper"{rl("gt:8")}><span>2~20자</span><span>5/20</span></div></div>{HOME}
 {n(1, 62, 4)}{n(2, 86, 4)}{n(3, 26, 168)}''', cls="sm")
 p12b = phone("B. 입력 오류", f'''{STATUS}
-<div class="nav inline"><span class="left">‹ 프로필</span><span class="title">이메일</span><span class="right"><span class="glass pill" style="opacity:.4">저장</span></span></div>
-<div class="content" style="padding-top:10px"><div class="field error">chris@<span style="margin-left:auto;color:#8A919E">✕</span></div>
-<div class="helper error"><span>이메일 형식이 올바르지 않아요.</span></div></div>{HOME}
+<div class="nav inline"><span class="left">‹ 프로필</span><span class="title">이메일</span><span class="right"><span class="glass pill"{rl("t:비활성 40%")} style="opacity:.4">저장</span></span></div>
+<div class="content" style="padding-top:10px"><div class="field error"{rl("t:테두리 1.5 · error")}>chris@<span style="margin-left:auto;color:#8A919E">✕</span></div>
+<div class="helper error"{rl("gt:8")}><span>이메일 형식이 올바르지 않아요.</span></div></div>{HOME}
 {n(4, 82, 4)}''', cls="sm")
 p12c = phone("C. 저장 중 → 실패", f'''{STATUS}
 <div class="nav inline"><span class="left">‹ 프로필</span><span class="title">이름</span><span class="right"><span class="glass pill"><span class="spinner" style="width:10px;height:10px;border-width:2px"></span></span></span></div>
 <div class="content" style="padding-top:10px"><div class="field">철수</div></div>
-<div class="dim"></div><div class="alert"><div class="at">저장하지 못했어요</div><div class="am">네트워크 연결을 확인해 주세요.</div><div class="ab"><span>확인</span></div></div>{HOME}
+<div class="dim"></div><div class="alert"{rl("t:시스템 알럿")}><div class="at">저장하지 못했어요</div><div class="am">네트워크 연결을 확인해 주세요.</div><div class="ab"><span>확인</span></div></div>{HOME}
 {n(5, 26, 168)}{n(6, 150, 10)}''', cls="sm")
 p12_spec = f'''<div class="spec">
 {spec_table([
@@ -585,13 +596,13 @@ p13a = phone("A. 사진 선택", f'''{STATUS}
 <div class="nav"><div class="large">프로필</div></div>
 <div class="content"><div style="display:flex;flex-direction:column;align-items:center;gap:4px;margin:6px 0"><div class="avatar"><span class="badge-cam">✎</span></div></div></div>
 <div class="dim"></div>
-<div class="sheet" style="height:300px"><div class="grabber"></div><div class="section" style="justify-content:center">사진 (시스템 PhotosPicker)</div>
+<div class="sheet"{rl("t:시스템 PhotosPicker")} style="height:300px"><div class="grabber"></div><div class="section" style="justify-content:center">사진 (시스템 PhotosPicker)</div>
 <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:3px">{"".join('<div class="skeleton" style="height:40px"></div>' for _ in range(16))}</div></div>{n(1, 66, 50)}{n(2, 190, 6)}''', cls="sm")
 p13b = phone("B. 업로드 중", f'''{STATUS}
 <div class="nav"><div class="large">프로필</div></div>
 <div class="content"><div style="display:flex;flex-direction:column;align-items:center;gap:4px;margin:6px 0 12px">
-<div class="avatar" style="display:flex;align-items:center;justify-content:center"><div class="spinner"></div></div>
-<div class="t" style="font-size:12px">Chris</div><div class="s">사진을 올리는 중…</div></div></div>
+<div class="avatar"{rl("sz:88")} style="display:flex;align-items:center;justify-content:center"><div class="spinner"></div></div>
+<div class="t" style="font-size:12px">Chris</div><div class="s"{rl("t:callout · textSecondary")}>사진을 올리는 중…</div></div></div>
 {tabbar("profile")}{n(3, 66, 50)}''', cls="sm")
 p13c = phone("C. 실패", f'''{STATUS}
 <div class="nav"><div class="large">프로필</div></div>
@@ -621,15 +632,15 @@ pages.append(page(13, "프로필 이미지 변경", "PhotosPicker → 압축 →
 p14a = phone("A. 설정", f'''{STATUS}
 <div class="nav inline"><span class="left">‹ 프로필</span><span class="title">설정</span></div>
 <div class="content" style="padding-top:6px">
-<div class="group-title">화면</div><div class="group" style="padding:8px 9px"><div class="seg"><span>시스템</span><span class="on">라이트</span><span>다크</span></div></div>
-<div class="group-title">데이터</div><div class="group"><div class="row" style="color:#B91C1C">최근 검색어 전체 삭제</div></div>
+<div class="group-title"{rl("gt:16")}>화면</div><div class="group"{rl("ml:20;tl:r 14")} style="padding:8px 9px"><div class="seg"{rl("t:Picker(.segmented)")}><span>시스템</span><span class="on">라이트</span><span>다크</span></div></div>
+<div class="group-title"{rl("gt:24")}>데이터</div><div class="group"><div class="row"{rl("h:44")} style="color:#B91C1C">최근 검색어 전체 삭제</div></div>
 <div class="group-title">정보</div><div class="group"><div class="row">앱 버전<span class="end">1.0.0 (1)</span></div><div class="row">서버 주소<span class="end">localhost:8000</span></div><div class="row">오픈소스 라이선스<span class="end">›</span></div></div>
 </div>{HOME}{n(1, 82, 4)}{n(2, 140, 4)}{n(3, 196, 4)}{n(4, 222, 4)}{n(5, 248, 4)}''')
 p14b = phone("B. 전체 삭제 확인", f'''{STATUS}
 <div class="nav inline"><span class="left">‹ 프로필</span><span class="title">설정</span></div>
 <div class="content"></div><div class="dim"></div>
 <div class="sheet"><div class="s" style="text-align:center;margin-bottom:6px">최근 검색어를 모두 삭제할까요?<br>삭제한 검색어는 되돌릴 수 없어요.</div>
-<div class="btn danger" style="margin-bottom:5px">전체 삭제</div><div class="btn ghost">취소</div></div>{n(6, 330, 8)}''', cls="sm")
+<div class="btn danger"{rl("t:시스템 confirmationDialog")} style="margin-bottom:5px">전체 삭제</div><div class="btn ghost">취소</div></div>{n(6, 330, 8)}''', cls="sm")
 p14_spec = f'''<div class="spec">
 {spec_table([
   (nn(1), "화면 모드", "Segmented Picker: 시스템 / 라이트 / 다크. 즉시 적용, 앱 재실행 후에도 유지."),
@@ -732,6 +743,7 @@ html = f'''<!doctype html>
 </head><body>
 {"".join(pages)}
 </body></html>'''
+html = html.replace("</body></html>", '<script src="redline.js"></script>\n</body></html>')
 html = html.replace("{{", "{").replace("}}", "}")
 OUT.write_text(html, encoding="utf-8")
 print(f"{len(pages)} pages → {OUT}")

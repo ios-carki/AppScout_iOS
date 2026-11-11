@@ -27,20 +27,21 @@ pages.push(screenPage('S1', '화면 — 검색 · 최근 검색어', 'SearchFeat
     search: { root: { n: 3, b: 'tr', dim: 'h' } },
     header: { root: { n: 5, b: 'l', dim: 'h' }, action: { n: 6, b: 'tr' } },
     section: { n: 4, b: 'bl', nobox: true },
-    row: { root: { n: 7, b: 'l', dim: 'h' }, icon: { n: 8, b: 'tl', gap: 'r' }, del: { n: 9, b: 'tr', dim: 'w' } },
-    tab: { root: { n: 10, b: 'l' } },
+    row: { root: { n: 7, b: 'l', dim: 'h' }, icon: { n: 8, b: 'tl', gap: 'r' }, text: { n: 9, b: 'bc', nobox: true }, del: { n: 10, b: 'tr', dim: 'w' } },
+    tab: { root: { n: 11, b: 'l' } },
   }), { key: 'S1' }), 'S1 최근 검색어 <small>검색어 없음 · 최근 검색어 5개</small>',
   specTable('S1', [
     NAVROW(1),
     { n: 2, layer: '상단 VStack', layout: 'VStack', size: 'Fill × Hug', pad: 'H20 T8', gap: 'B12', bg: '—', border: '—', text: '—', act: '스크롤 밖에 고정 (목록만 스크롤)' },
     { n: 3, d: 1, layer: 'SearchBar', sub: '→ C1', layout: 'HStack', size: '353 × 44', pad: 'L12 R12', gap: '—', bg: '{surface}', border: 'radius 10', text: '`.callout`', act: '`$store.query` · 리턴 키 `.search` · 최대 100자' },
     { n: 4, layer: '최근 검색어 섹션', sub: '`ScrollView`', layout: 'VStack(spacing: 0)', size: '353 × Hug', pad: 'H20', gap: 'T12', bg: '—', border: '—', text: '—', act: '최대 10개라 `List` · `LazyVStack` 불필요 · 구분선 · 스와이프 없음 · 0개면 섹션 전체 숨김 → S3 빈 상태' },
-    { n: 5, d: 1, layer: '섹션 헤더', layout: 'HStack · 양 끝', size: 'Fill × 44', pad: '—', gap: '—', bg: '—', border: '—', text: '"최근 검색어" `.headline`', act: '—' },
+    { n: 5, d: 1, layer: '섹션 헤더', layout: 'HStack · 양 끝', size: 'Fill × 44', pad: '—', gap: '—', bg: '—', border: '—', text: '"최근 검색어" `.headline` · {textPrimary}', act: '—' },
     { n: 6, d: 2, layer: 'Button 전체 삭제', layout: '—', size: 'Hug × 44', pad: '—', gap: '—', bg: '—', border: '—', text: '`.callout` · {brandPrimary}', act: '<b>확인 없이</b> 즉시 전체 삭제 (설정의 전체 삭제는 확인 있음)' },
-    { n: 7, d: 1, layer: '최근 검색어 행 ×5', layout: 'HStack', size: 'Fill × 44', pad: '—', gap: '—', bg: '—', border: '—', text: '`.body` · {textPrimary}', act: '탭 → 입력창에 채우고 <b>즉시 검색</b> (디바운스 없음) + 검색 시각 갱신' },
+    { n: 7, d: 1, layer: '최근 검색어 행 ×5', layout: 'HStack', size: 'Fill × 44', pad: '—', gap: '—', bg: '—', border: '—', text: '—', act: '탭 → 입력창에 채우고 <b>즉시 검색</b> (디바운스 없음) + 검색 시각 갱신' },
     { n: 8, d: 2, layer: 'Image 시계', layout: '—', size: '18', pad: '—', gap: 'R12', bg: '—', border: '—', text: '{textSecondary}', act: '`clock.arrow.circlepath`' },
-    { n: 9, d: 2, layer: 'Button 개별 삭제', layout: 'center', size: '44 × 44', pad: '—', gap: '—', bg: '—', border: '—', text: '`xmark` 15 · {textTertiary}', act: '`accessibilityLabel("카카오 삭제")` · 목록은 DB 관찰로 자동 갱신' },
-    TABROW(10, '검색'),
+    { n: 9, d: 2, layer: 'Text 키워드', layout: '—', size: 'Fill × 24', pad: '—', gap: '—', bg: '—', border: '—', text: '`.body` · {textPrimary}', act: '`.lineLimit(1)` · 남은 폭 전부 (`maxWidth: .infinity, alignment: .leading`) · 저장된 표기 그대로' },
+    { n: 10, d: 2, layer: 'Button 개별 삭제', layout: 'center', size: '44 × 44', pad: '—', gap: '—', bg: '—', border: '—', text: '`xmark` 15 · {textTertiary}', act: '`accessibilityLabel("카카오 삭제")` · 목록은 DB 관찰로 자동 갱신' },
+    TABROW(11, '검색'),
   ]) + two(`<div class="note"><b>제약</b><br>
     · 최대 <b>10개</b>, 최신순 (<code>RecentKeywordUseCase.maxCount</code>)<br>
     · 대소문자 · 앞뒤 공백이 달라도 같은 검색어 ("Kakao " = "kakao") → 맨 위로, 표기는 마지막 입력값<br>
@@ -144,7 +145,7 @@ pages.push(screenPage('S4', '화면 — 상세 · 상단', 'AppDetailFeature · 
     { n: 10, d: 1, layer: '장르 태그 HStack', layout: 'HStack(spacing: 6)', size: 'Hug × 18', pad: '—', gap: 'B16', bg: '—', border: '—', text: '→ C2 TagView', act: '최대 3개, 한 줄' },
     { n: 11, d: 1, layer: '요약 지표', layout: 'HStack · 4칸 균등', size: '353 × 70', pad: 'V12', gap: 'B16', bg: '—', border: '위아래 0.5 · 칸 사이 0.5 {border}', text: '값 `.headline` · 라벨 `.caption` {textSecondary}', act: '평점(별 11) · 평가 수 · 연령 등급 · 가격' },
     { n: 12, d: 1, layer: 'App Store에서 보기', layout: '→ C4 primary', size: '353 × 52', pad: '—', gap: 'B24', bg: '{brandPrimary}', border: 'radius 10', text: '`.headline` · {onBrand}', act: '`@Dependency(\\.openURL)` · URL 없으면 버튼 숨김' },
-    { n: 13, d: 1, layer: 'Text "미리 보기"', layout: '—', size: 'Hug × 28', pad: '—', gap: 'B12', bg: '—', border: '—', text: '`.title2`', act: '스크린샷 0개면 섹션 숨김' },
+    { n: 13, d: 1, layer: 'Text "미리 보기"', layout: '—', size: 'Hug × 28', pad: '—', gap: 'B12', bg: '—', border: '—', text: '`.title2` · {textPrimary}', act: '스크린샷 0개면 섹션 숨김' },
     { n: 14, d: 1, layer: '스크린샷', sub: 'ScrollView(.horizontal)', layout: 'HStack(spacing: 12)', size: '185 × 400 (비율 유지)', pad: '—', gap: 'R12', bg: '{surface} (로딩 전)', border: 'radius 14 · 0.5 {border}', text: '—', act: '오른쪽은 화면 끝까지 (`.contentMargins(.horizontal, 20)`) · 탭 → 전체 화면 (선택 과제)' },
   ]) + `<div class="tca"><b>TCA 제안</b> · <code>onAppear</code>에서 <code>.merge(상세 요청, 즐겨찾기 구독)</code> · <code>favoriteButtonTapped</code> · <code>appStoreButtonTapped</code> · <code>retryButtonTapped</code> · State: <code>app: AppSummary</code>, <code>detail: AppDetail?</code>, <code>loadState</code>, <code>isFavorite: Bool</code></div>`));
 
@@ -162,13 +163,13 @@ pages.push(screenPage('S5', '화면 — 상세 · 본문 (스크롤 아래)', 'A
   specTable('S5', [
     { ...NAVROW(1), act: '스크롤로 이름이 가려지면 제목 "카카오톡 KakaoTalk" 표시' },
     { n: 2, layer: '콘텐츠 VStack', layout: 'VStack(alignment: .leading)', size: 'Fill × Hug', pad: 'H20', gap: '섹션 사이 24', bg: '—', border: '—', text: '—', act: '—' },
-    { n: 3, d: 1, layer: 'Text "설명"', layout: '—', size: 'Hug × 28', pad: '—', gap: 'B8', bg: '—', border: '—', text: '`.title2`', act: '—' },
+    { n: 3, d: 1, layer: 'Text "설명"', layout: '—', size: 'Hug × 28', pad: '—', gap: 'B8', bg: '—', border: '—', text: '`.title2` · {textPrimary}', act: '—' },
     { n: 4, d: 1, layer: 'Text 설명', layout: '—', size: 'Fill × 72 (3줄)', pad: '—', gap: '—', bg: '—', border: '—', text: '`.body` · {textPrimary}', act: '`.lineLimit(descriptionExpanded ? nil : 3)`' },
     { n: 5, d: 1, layer: 'Button 더 보기', layout: '오른쪽 정렬', size: 'Hug × 44', pad: '—', gap: '—', bg: '—', border: '—', text: '`.callout` · {brandPrimary}', act: '3줄을 넘을 때만 · 누르면 펼침 (다시 접기 없음)' },
-    { n: 6, d: 1, layer: '"새로운 기능" 헤더', layout: 'HStack · firstTextBaseline', size: 'Fill × 28', pad: '—', gap: 'T16 (더 보기 44 포함 → 24)', bg: '—', border: '—', text: '`.title2`', act: '릴리스 노트가 없으면 섹션 숨김' },
+    { n: 6, d: 1, layer: '"새로운 기능" 헤더', layout: 'HStack · firstTextBaseline', size: 'Fill × 28', pad: '—', gap: 'T16 (더 보기 44 포함 → 24)', bg: '—', border: '—', text: '`.title2` · {textPrimary} / 버전 `.caption` · {textSecondary}', act: '릴리스 노트가 없으면 섹션 숨김' },
     { n: 7, d: 2, layer: 'Text 버전 · 날짜', layout: '—', size: 'Hug × 18', pad: '—', gap: '—', bg: '—', border: '—', text: '`.caption` · {textSecondary}', act: '"버전 26.9.2 · 2026.11.03" (`yyyy.MM.dd`)' },
-    { n: 8, d: 1, layer: 'Text 릴리스 노트', layout: '—', size: 'Fill × 72 (3줄)', pad: '—', gap: 'T8', bg: '—', border: '—', text: '`.body`', act: '`.lineLimit(3)`' },
-    { n: 9, d: 1, layer: 'Text "정보"', layout: '—', size: 'Hug × 28', pad: '—', gap: 'T24 B8', bg: '—', border: '—', text: '`.title2`', act: '—' },
+    { n: 8, d: 1, layer: 'Text 릴리스 노트', layout: '—', size: 'Fill × 72 (3줄)', pad: '—', gap: 'T8', bg: '—', border: '—', text: '`.body` · {textPrimary}', act: '`.lineLimit(3)`' },
+    { n: 9, d: 1, layer: 'Text "정보"', layout: '—', size: 'Hug × 28', pad: '—', gap: 'T24 B8', bg: '—', border: '—', text: '`.title2` · {textPrimary}', act: '—' },
     { n: 10, d: 1, layer: '정보 행 ×5', layout: 'HStack · 양 끝', size: '353 × 44', pad: '—', gap: '—', bg: '—', border: '아래 0.5 {border}', text: '라벨 `.callout` {textSecondary} · 값 `.callout` {textPrimary}', act: '개발사 · 크기(MB 소수 1자리, `ByteCountFormatStyle`) · 연령 등급 · 호환성("iOS 17.0 이상") · 장르. 값이 없으면 "-"' },
   ]) + `<div class="note"><b>날짜 · 용량 포맷은 View에서</b> — <code>Date.FormatStyle</code>, <code>ByteCountFormatStyle</code>. State에는 원본 값(Date, Int)을 둡니다.</div>`));
 
@@ -235,7 +236,7 @@ pages.push(statePage('S8', '화면 — 즐겨찾기 · 빈 상태 · 스와이�
   `${LEGEND}
   ${sspec('S8', [
     { n: 1, layer: 'EmptyStateView', sub: '→ C5', layout: 'VStack(spacing: 12)', size: 'Fill × Hug', pad: '24', gap: '남은 영역 가운데', bg: '—', border: '—', text: '—', act: '`heart` 44 · 설명 "앱 상세에서 ♡를 눌러 모아 보세요."' },
-    { n: 2, d: 1, layer: '제목', layout: '—', size: 'Hug × 24', pad: '—', gap: '—', bg: '—', border: '—', text: '`.headline`', act: '"아직 즐겨찾기한 앱이 없어요"' },
+    { n: 2, d: 1, layer: '제목', layout: '—', size: 'Hug × 24', pad: '—', gap: '—', bg: '—', border: '—', text: '`.headline` · {textPrimary}', act: '"아직 즐겨찾기한 앱이 없어요"' },
     { n: 3, d: 1, layer: '앱 검색하러 가기', layout: '→ C4 secondary', size: '200 × 52', pad: '—', gap: 'T8', bg: '—', border: '테두리 1 {border}', text: '`.headline`', act: '`delegate(.searchTabRequested)` → RootFeature가 `selectedTab = .search`' },
     { n: 4, layer: '삭제 액션', sub: '시스템 `.swipeActions`', layout: '—', size: '88 × 84', pad: '—', gap: '—', bg: '{error} (`.tint(.dsError)`)', border: '—', text: '`trash` + "삭제"', act: '확인 없이 삭제 · 끝까지 밀면 즉시 · 실패 시 알럿 "기기에 저장하지 못했어요. 저장 공간을 확인해 주세요."' },
   ])}
@@ -257,15 +258,15 @@ pages.push(screenPage('S9', '화면 — 프로필', 'ProfileFeature · 탭 루�
   }), { key: 'S9' }), 'S9 프로필',
   specTable('S9', [
     NAVROW(1),
-    { n: 2, d: 1, layer: '설정 버튼', layout: '—', size: '44 × 44', pad: '—', gap: '오른쪽 16', bg: '유리', border: '원형', text: '`gearshape`', act: '→ 설정 push (`Path.settings`) · `accessibilityLabel("설정")`' },
+    { n: 2, d: 1, layer: '설정 버튼', layout: '—', size: '44 × 44', pad: '—', gap: '오른쪽 16', bg: '유리', border: '원형', text: '`gearshape` 20 · {textPrimary}', act: '→ 설정 push (`Path.settings`) · `accessibilityLabel("설정")`' },
     { n: 3, layer: '프로필 헤더', layout: 'VStack · center', size: 'Fill × Hug', pad: '—', gap: 'T16 · B24', bg: '—', border: '—', text: '—', act: '—' },
     { n: 4, d: 1, layer: '프로필 이미지', layout: 'ZStack', size: '88 × 88', pad: '—', gap: 'B12', bg: '없으면 {brandPrimary} 12% + 이니셜', border: '원형', text: '이니셜 34 Bold · {brandPrimary}', act: 'Kingfisher · 탭 → PhotosPicker (S10)' },
     { n: 5, d: 2, layer: '편집 배지', layout: 'center', size: '28 × 28', pad: '—', gap: '오른쪽 아래 −2', bg: '{brandPrimary}', border: '원형 · 테두리 2 {background}', text: '`pencil` 13 · {onBrand}', act: '업로드 중 40% · 비활성' },
-    { n: 6, d: 1, layer: 'Text 이름', layout: '—', size: 'Hug × 28', pad: '—', gap: 'B2', bg: '—', border: '—', text: '`.title2`', act: '—' },
+    { n: 6, d: 1, layer: 'Text 이름', layout: '—', size: 'Hug × 28', pad: '—', gap: 'B2', bg: '—', border: '—', text: '`.title2` · {textPrimary}', act: '—' },
     { n: 7, d: 1, layer: 'Text 이메일', layout: '—', size: 'Hug × 22', pad: '—', gap: '—', bg: '—', border: '—', text: '`.callout` · {textSecondary}', act: '—' },
     { n: 8, layer: '섹션 제목', layout: '—', size: 'Hug × 18', pad: '—', gap: '왼쪽 36 · B8', bg: '—', border: '—', text: '`.caption` · {textSecondary}', act: '`Section("계정 정보")`' },
     { n: 9, layer: '그룹', sub: '→ C6', layout: 'VStack', size: '353 × 89', pad: 'H16', gap: '좌우 20', bg: '{surface}', border: 'radius 14', text: '—', act: '`.insetGrouped`' },
-    { n: 10, d: 1, layer: 'DSListRow 이름 · 이메일', layout: '→ C6', size: 'Fill × 44', pad: '—', gap: '—', bg: '—', border: '—', text: '제목 `.body` · 값 `.callout`', act: '탭 → 편집 push (S11) · 값이 길면 말줄임' },
+    { n: 10, d: 1, layer: 'DSListRow 이름 · 이메일', layout: '→ C6', size: 'Fill × 44', pad: '—', gap: '—', bg: '—', border: '—', text: '제목 `.body` · {textPrimary}<br>값 `.callout` · {textSecondary}<br>꺾쇠 14 · {textTertiary}', act: '탭 → 편집 push (S11) · 값이 길면 말줄임' },
     TABROW(11, '프로필'),
   ]) + two(`<div class="note"><b>규칙</b><br>
     · 프로필이 아직 없을 때만 가운데 로딩/에러 (S10). 이미 있으면 기존 값을 유지한 채 조용히 갱신<br>
@@ -315,8 +316,8 @@ pages.push(screenPage('S11', '화면 — 이름 · 이메일 편집', 'EditNameF
     { n: 3, d: 1, layer: '저장 버튼', sub: '`.topBarTrailing`', layout: '—', size: 'Hug × 44', pad: 'H16', gap: '오른쪽 16', bg: '유리', border: '캡슐', text: '시스템 17 Semibold · {brandPrimary} / 비활성 {textTertiary}', act: '<b>값이 바뀌었고 형식이 맞을 때만</b> 활성 · 저장 중엔 스피너' },
     { n: 4, layer: '콘텐츠', layout: 'VStack(alignment: .leading)', size: 'Fill × Hug', pad: 'H20 T16', gap: '—', bg: '{background}', border: '—', text: '—', act: '—' },
     { n: 5, d: 1, layer: '편집 필드', sub: '→ C6', layout: 'HStack', size: '353 × 44', pad: 'L12', gap: 'B8', bg: '{surface}', border: 'radius 10', text: '—', act: '진입 시 현재 값 + <b>자동 포커스</b> (`@FocusState`) · 리턴 키 = 저장' },
-    { n: 6, d: 2, layer: 'TextField', layout: '—', size: 'Fill × 24', pad: '—', gap: '—', bg: '—', border: '—', text: '`.body`', act: '이메일은 `.keyboardType(.emailAddress)` · 자동 대문자 끔' },
-    { n: 7, d: 2, layer: '지우기', layout: '—', size: '44 × 44', pad: '—', gap: '—', bg: '—', border: '—', text: '`xmark.circle.fill` 18', act: '—' },
+    { n: 6, d: 2, layer: 'TextField', layout: '—', size: 'Fill × 24', pad: '—', gap: '—', bg: '—', border: '—', text: '`.body` · {textPrimary}', act: '이메일은 `.keyboardType(.emailAddress)` · 자동 대문자 끔' },
+    { n: 7, d: 2, layer: '지우기', layout: '—', size: '44 × 44', pad: '—', gap: '—', bg: '—', border: '—', text: '`xmark.circle.fill` 18 · {textTertiary}', act: '—' },
     { n: 8, d: 1, layer: '도움말', layout: 'HStack · 양 끝', size: 'Fill × 18', pad: '—', gap: '—', bg: '—', border: '—', text: '`.caption` · {textSecondary}', act: '이름 "2~20자" · 이메일은 도움말 없음' },
     { n: 9, d: 2, layer: '글자 수', layout: '—', size: 'Hug × 18', pad: '—', gap: '—', bg: '—', border: '—', text: '`.caption` · {textSecondary}', act: '"N/20" — 앞뒤 공백 제외 기준 · 이름만' },
   ]) + two(simpleTable([['항목', 60], ['규칙 (클라이언트 = 서버)', 0]], [
@@ -371,12 +372,12 @@ pages.push(screenPage('S13', '화면 — 설정', 'SettingsFeature · 프로필 
     { ...NAVROW(1), act: '제목 "설정" · `.inline`' },
     { n: 2, layer: '섹션 제목 "화면"', layout: '—', size: 'Hug × 18', pad: '—', gap: '왼쪽 36 · T16 · B8', bg: '—', border: '—', text: '`.caption` · {textSecondary}', act: '섹션: 화면 / 데이터 / 정보 (사이 24)' },
     { n: 3, layer: '그룹', sub: '→ C6', layout: 'VStack', size: '353 × 56', pad: 'H16 V12', gap: '좌우 20', bg: '{surface}', border: 'radius 14', text: '—', act: '—' },
-    { n: 4, d: 1, layer: 'Picker 화면 모드', sub: '`.pickerStyle(.segmented)`', layout: '시스템', size: 'Fill × 32', pad: '—', gap: '—', bg: '시스템', border: '시스템', text: '시스템 13', act: '시스템 / 라이트 / 다크 · <b>즉시 적용 · 재실행 후 유지</b>' },
-    { n: 5, layer: '섹션 제목 "데이터"', layout: '—', size: 'Hug × 18', pad: '—', gap: 'T24 · B8', bg: '—', border: '—', text: '`.caption`', act: '—' },
+    { n: 4, d: 1, layer: 'Picker 화면 모드', sub: '`.pickerStyle(.segmented)`', layout: '시스템', size: 'Fill × 32', pad: '—', gap: '—', bg: '시스템', border: '시스템', text: '시스템 13 · {textPrimary}', act: '시스템 / 라이트 / 다크 · <b>즉시 적용 · 재실행 후 유지</b>' },
+    { n: 5, layer: '섹션 제목 "데이터"', layout: '—', size: 'Hug × 18', pad: '—', gap: 'T24 · B8', bg: '—', border: '—', text: '`.caption` · {textSecondary}', act: '—' },
     { n: 6, d: 1, layer: '최근 검색어 전체 삭제', sub: 'DSListRow', layout: '→ C6', size: 'Fill × 44', pad: '—', gap: '—', bg: '—', border: '—', text: '`.body` · {error}', act: '탭 → 확인 다이얼로그 (S14) · 최근 검색어 0개면 비활성' },
-    { n: 7, d: 1, layer: '앱 버전', layout: '→ C6', size: 'Fill × 44', pad: '—', gap: '—', bg: '—', border: '—', text: '값 `.callout`', act: '`CFBundleShortVersionString (CFBundleVersion)`' },
-    { n: 8, d: 1, layer: '서버 주소', layout: '→ C6', size: 'Fill × 44', pad: '—', gap: '—', bg: '—', border: '—', text: '값 `.callout`', act: '<b>Debug 빌드에서만</b> · Info.plist `APIBaseURL`의 host:port' },
-    { n: 9, d: 1, layer: '오픈소스 라이선스', layout: '→ C6', size: 'Fill × 44', pad: '—', gap: '—', bg: '—', border: '—', text: '`.body`', act: '→ 라이선스 목록 push (S14)' },
+    { n: 7, d: 1, layer: '앱 버전', layout: '→ C6', size: 'Fill × 44', pad: '—', gap: '—', bg: '—', border: '—', text: '제목 `.body` · {textPrimary}<br>값 `.callout` · {textSecondary}', act: '`CFBundleShortVersionString (CFBundleVersion)`' },
+    { n: 8, d: 1, layer: '서버 주소', layout: '→ C6', size: 'Fill × 44', pad: '—', gap: '—', bg: '—', border: '—', text: '제목 `.body` · {textPrimary}<br>값 `.callout` · {textSecondary}', act: '<b>Debug 빌드에서만</b> · Info.plist `APIBaseURL`의 host:port' },
+    { n: 9, d: 1, layer: '오픈소스 라이선스', layout: '→ C6', size: 'Fill × 44', pad: '—', gap: '—', bg: '—', border: '—', text: '`.body` · {textPrimary} · 꺾쇠 {textTertiary}', act: '→ 라이선스 목록 push (S14)' },
     { n: 10, d: 2, layer: '꺾쇠', layout: '—', size: '13', pad: '—', gap: '—', bg: '—', border: '—', text: '{textTertiary}', act: 'push되는 행만' },
   ]) + two(code(`
 public enum AppTheme: String, CaseIterable, Sendable {

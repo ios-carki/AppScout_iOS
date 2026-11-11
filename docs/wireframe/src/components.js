@@ -70,8 +70,8 @@ pages.push(page('05', '공통 UI — 상태 바 · 내비게이션 바 · 탭 �
     ${specTable('G1', [
       { n: 1, layer: '상태 바', sub: '시스템', layout: '—', size: 'Fill × 59', pad: '—', gap: '—', bg: '투명 (화면 배경)', border: '—', text: '시스템', act: '다크 모드에서 자동으로 흰 글자' },
       { n: 2, layer: '내비게이션 바 · 탭 루트', sub: '시스템', layout: 'HStack', size: 'Fill × 52', pad: 'L20 R16', gap: '—', bg: '투명 → 스크롤 시 유리', border: '—', text: '—', act: '`.navigationTitle("검색")` + `.toolbarTitleDisplayMode(.inlineLarge)`' },
-      { n: 3, d: 1, layer: '큰 제목', layout: '—', size: 'Hug × 41', pad: '—', gap: '—', bg: '—', border: '—', text: '시스템 34 Bold', act: '왼쪽 정렬 · 스크롤하면 작아짐' },
-      { n: 4, d: 1, layer: '툴바 버튼 (유리 원)', sub: 'S9 · S4 참고', layout: 'center', size: '44 × 44', pad: '—', gap: '오른쪽 16', bg: '유리 (시스템)', border: '원형', text: '아이콘 20', act: '`ToolbarItem(placement: .topBarTrailing)` · `accessibilityLabel` 필수', nomeas: true },
+      { n: 3, d: 1, layer: '큰 제목', layout: '—', size: 'Hug × 41', pad: '—', gap: '—', bg: '—', border: '—', text: '시스템 34 Bold · {textPrimary}', act: '왼쪽 정렬 · 스크롤하면 작아짐' },
+      { n: 4, d: 1, layer: '툴바 버튼 (유리 원)', sub: 'S9 · S4 참고', layout: 'center', size: '44 × 44', pad: '—', gap: '오른쪽 16', bg: '유리 (시스템)', border: '원형', text: '아이콘 20 · {textPrimary}', act: '`ToolbarItem(placement: .topBarTrailing)` · `accessibilityLabel` 필수', nomeas: true },
       { n: 5, d: 1, layer: '텍스트 툴바 버튼 (유리 캡슐)', sub: 'S11 저장', layout: 'center', size: 'Hug × 44', pad: 'H16', gap: '—', bg: '유리 (시스템)', border: '캡슐', text: '시스템 17 Semibold · {brandPrimary}', act: '비활성이면 {textTertiary}', nomeas: true },
       { n: 6, layer: '탭 바', sub: '시스템 · 떠 있는 유리', layout: 'HStack', size: '345 × 62', pad: '4', gap: '좌우 24 · 아래 21', bg: '유리 (시스템)', border: 'radius 31', text: '—', act: '`TabView` + `.tint(.dsBrandPrimary)` — 직접 꾸미지 않음' },
       { n: 7, d: 1, layer: '선택된 탭', layout: 'VStack · center', size: '1/3 × 54', pad: '—', gap: '아이콘-라벨 2', bg: '선택 틴트 (시스템)', border: 'radius 27', text: '시스템 10 Semibold · {brandPrimary}', act: '아이콘 24 · 비선택은 {textPrimary}' },

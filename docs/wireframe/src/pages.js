@@ -38,6 +38,10 @@ pages.push(page('00', 'AppScout — 와이어프레임 & 디자인 스펙',
     ${LEGEND}
     <div class="note">목업은 구현할 값(pt)을 그대로 넣어 그렸고, 그린 뒤 실제 위치를 재서 선과 숫자를 붙였습니다. 표의 <span style="color:#C2185B;font-family:Menlo">측정 W × H</span>는 그림에서 잰 값입니다.
     텍스트 높이는 <b>줄 높이(lineHeight)</b> 기준입니다. SwiftUI에서는 <code>.typography()</code>가 같은 높이를 맞춥니다.</div>
+    <div class="note"><b>레이어 스펙 표 읽는 법</b><br>
+    · <b>레이어</b> 열 작은 글씨 = 그 레이어를 만드는 <b>SwiftUI 타입</b> (<code>List</code>, <code>ScrollView</code>) 또는 재사용할 컴포넌트 (→ C3)<br>
+    · <b>레이아웃</b> 열 = 그 컨테이너 <b>안</b>에서 자식을 놓는 방식. 예: <code>ScrollView</code> + <code>VStack(spacing: 0)</code> = ScrollView 안에 VStack<br>
+    · <code>List</code>는 행을 스스로 배치하므로 레이아웃 열이 '—'입니다.</div>
     <div class="note"><b>그림과 실제 앱의 차이</b><br>
     · 아이콘은 SF Symbols 대신 비슷한 모양으로 그렸습니다. 실제 심볼 이름은 표와 02쪽에 있습니다.<br>
     · 앱 아이콘 · 스크린샷은 색 블록입니다. 실제로는 서버 <code>icon_url</code> · <code>screenshot_urls</code> 이미지.<br>

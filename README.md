@@ -126,6 +126,7 @@ python3.13 -m venv .venv && .venv/bin/pip install -r requirements-dev.txt
 
 - Python 3.14는 고정한 pydantic-core 버전의 휠이 없어 설치가 실패합니다. 3.12 또는 3.13을 쓰세요.
 - 시드 갱신: `.venv/bin/python -m app.seed --refresh` (iTunes에서 다시 받아 `seed/apps.json` 덮어쓰기 + DB 반영)
+- 서버 구성, 실기기 접속, 인증 등 자세한 내용은 [docs/backend.md](docs/backend.md)에 있습니다.
 
 ### 3. 서버 주소 (xcconfig)
 
@@ -186,7 +187,7 @@ cd Server && python3.13 -m venv .venv && .venv/bin/pip install -r requirements-d
 | PATCH | `/v1/users/me` | 이름·이메일 수정 (보낸 필드만), 검증 실패 422 |
 | PUT | `/v1/users/me/avatar` | 프로필 사진 업로드 (multipart `file`, JPEG/PNG, 5MB 이하) |
 
-자세한 요청·응답 형식은 서버를 켠 뒤 Swagger(http://localhost:8000/docs)에서 확인하고 직접 보내 볼 수 있습니다.
+자세한 요청·응답 형식과 에러 코드는 [docs/backend.md](docs/backend.md)에 있습니다. 서버를 켠 뒤 Swagger(http://localhost:8000/docs)에서 직접 보내 볼 수도 있습니다.
 
 ## 폴더 구조
 
@@ -210,7 +211,7 @@ cd Server && python3.13 -m venv .venv && .venv/bin/pip install -r requirements-d
 ├── Configs/                 xcconfig (서버 주소, 번들 ID 접미사)
 ├── Tuist/                   의존성(Package.swift), 모듈 helper
 ├── Server/                  FastAPI + MySQL 서버, 시드 데이터, pytest
-├── docs/wireframe/          와이어프레임 & 디자인 스펙 PDF (HTML 소스 포함)
+├── docs/                    서버 문서(backend.md), 와이어프레임 & 디자인 스펙 PDF
 └── screenshots/             README 이미지
 ```
 
@@ -232,6 +233,9 @@ RootView (TabView)
 
 각 탭은 `@Reducer enum Path` + `StackState`로 push를 관리합니다. 자식 화면은 부모를 직접 바꾸지 않고 `delegate` 액션으로 알리며(편집 완료, 검색 탭 요청), 스스로 닫을 때는 `@Dependency(\.dismiss)`를 씁니다.
 
-## 와이어프레임
+## 문서
 
-[docs/wireframe/AppScout_Wireframe.pdf](docs/wireframe/AppScout_Wireframe.pdf)에 화면별 레드라인과 레이어 스펙(크기, 여백, 컬러·타이포그래피 토큰, 상태, 액션)이 있습니다. 소스는 `docs/wireframe/src`의 HTML/JS입니다.
+| 문서 | 내용 |
+|---|---|
+| [docs/backend.md](docs/backend.md) | 서버 구성과 실행, 시드 데이터, iOS 접속 방법, API 명세, 에러 코드 |
+| [docs/wireframe/AppScout_Wireframe.pdf](docs/wireframe/AppScout_Wireframe.pdf) | 와이어프레임 & 디자인 스펙: 화면별 레드라인, 레이어 스펙(크기, 여백, 컬러·타이포그래피 토큰, 상태, 액션). 소스는 `docs/wireframe/src` |

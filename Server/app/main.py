@@ -24,7 +24,7 @@ async def lifespan(_: FastAPI):
 app = FastAPI(
     title="AppScout API",
     version="1.0.0",
-    description="AppScout iOS 복습 프로젝트용 백엔드. 명세는 docs/backend.md 참고.",
+    description="AppScout iOS 앱의 백엔드 (앱 검색·상세, 사용자 프로필). 명세는 docs/backend.md 참고.",
     lifespan=lifespan,
 )
 

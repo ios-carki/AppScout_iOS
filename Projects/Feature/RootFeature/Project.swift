@@ -10,5 +10,6 @@ let project = Project.frameworkModule(
         .feature(.search),
         .feature(.favorites),
         .feature(.profile),
+        .feature(.settings),
     ]
 )

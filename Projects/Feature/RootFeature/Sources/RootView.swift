@@ -3,6 +3,7 @@ import DesignSystem
 import FavoritesFeature
 import ProfileFeature
 import SearchFeature
+import SettingsFeature
 import SwiftUI
 
 /// 앱 루트 탭 화면 (와이어프레임 05)
@@ -28,7 +29,7 @@ public struct RootView: View {
                 .tag(RootFeature.Tab.profile)
         }
         .tint(.dsBrandPrimary)
-        // TODO: 설정의 테마 값으로 .preferredColorScheme(...) 적용
+        .preferredColorScheme(store.theme.colorScheme)
     }
 }
 

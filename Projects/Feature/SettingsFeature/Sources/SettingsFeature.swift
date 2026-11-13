@@ -2,31 +2,46 @@ import ComposableArchitecture
 import Domain
 import Foundation
 
-/// 설정 화면 리듀서 (뼈대)
+/// 설정 화면 리듀서
 ///
 /// 와이어프레임: docs/wireframe/AppScout_Wireframe.pdf S13~S14
 /// 요구사항·체크리스트: docs/feature-guide.md#settings
 ///
-/// - [ ] State: @Shared(.appStorage("appTheme")) 테마(시스템/라이트/다크), 확인 다이얼로그, 앱 버전
-/// - [ ] 테마는 RootView에서도 같은 @Shared 키로 읽어서 .preferredColorScheme 적용
-/// - [ ] 최근 검색어 전체 삭제는 confirmationDialog로 한 번 더 확인
+/// - 테마는 `@Shared(.appTheme)`. RootFeature도 같은 키를 읽으므로 바꾸는 즉시 앱 전체에 적용된다.
+/// - 최근 검색어 전체 삭제는 확인 다이얼로그를 한 번 거친다. 0개면 버튼을 비활성화한다.
 @Reducer
 public struct SettingsFeature {
     @ObservableState
     public struct State: Equatable {
-        // TODO: 화면 상태
+        @Shared(.appTheme) var theme
+        var recentKeywordCount = 0
+        @Presents var confirmationDialog: ConfirmationDialogState<Action.Dialog>?
+        @Presents var alert: AlertState<Action.Alert>?
 
         public init() {}
     }
 
     public enum Action {
         case onAppear
-        // TODO: 사용자 행동은 "무엇을 했는가"로 이름 짓기 (예: searchButtonTapped, cellTapped)
-        // TODO: 부모에게 알릴 일은 case delegate(Delegate)로 분리
+        case themeChanged(AppTheme)
+        case recentKeywordsUpdated(Int)
+        case clearRecentKeywordsTapped
+        case clearFailed(String)
+        case confirmationDialog(PresentationAction<Dialog>)
+        case alert(PresentationAction<Alert>)
+
+        public enum Dialog: Equatable {
+            case clearConfirmed
+        }
+
+        public enum Alert: Equatable {}
     }
 
-    /// 최근 검색어 전체 삭제
     @Dependency(\.recentKeywordUseCase) var recentKeywordUseCase
+
+    enum CancelID {
+        case recentKeywords
+    }
 
     public init() {}
 
@@ -34,8 +49,59 @@ public struct SettingsFeature {
         Reduce { state, action in
             switch action {
             case .onAppear:
+                return .run { send in
+                    for try await keywords in recentKeywordUseCase.observe() {
+                        await send(.recentKeywordsUpdated(keywords.count))
+                    }
+                }
+                .cancellable(id: CancelID.recentKeywords, cancelInFlight: true)
+
+            case let .themeChanged(theme):
+                state.$theme.withLock { $0 = theme }
+                return .none
+
+            case let .recentKeywordsUpdated(count):
+                state.recentKeywordCount = count
+                return .none
+
+            case .clearRecentKeywordsTapped:
+                state.confirmationDialog = ConfirmationDialogState {
+                    TextState("최근 검색어 삭제")
+                } actions: {
+                    ButtonState(role: .destructive, action: .clearConfirmed) {
+                        TextState("전체 삭제")
+                    }
+                    ButtonState(role: .cancel) {
+                        TextState("취소")
+                    }
+                } message: {
+                    TextState("최근 검색어를 모두 삭제할까요? 삭제한 검색어는 되돌릴 수 없어요.")
+                }
+                return .none
+
+            case .confirmationDialog(.presented(.clearConfirmed)):
+                // 삭제 후 안내는 없다. 개수와 검색 탭은 DB 관찰 스트림으로 자동 반영된다.
+                return .run { _ in
+                    try await recentKeywordUseCase.deleteAll()
+                } catch: { error, send in
+                    await send(.clearFailed(error.userMessage))
+                }
+
+            case let .clearFailed(message):
+                state.alert = AlertState {
+                    TextState("삭제하지 못했어요")
+                } actions: {
+                    ButtonState(role: .cancel) { TextState("확인") }
+                } message: {
+                    TextState(message)
+                }
+                return .none
+
+            case .confirmationDialog, .alert:
                 return .none
             }
         }
+        .ifLet(\.$confirmationDialog, action: \.confirmationDialog)
+        .ifLet(\.$alert, action: \.alert)
     }
 }

@@ -3,12 +3,12 @@ import FavoritesFeature
 import Foundation
 import ProfileFeature
 import SearchFeature
+import SettingsFeature
 
 /// 탭 구성 (와이어프레임 05)
 ///
-/// 탭 3개를 조립만 하는 리듀서라 미리 구현해 두었다. 각 탭의 기능은 하위 Feature에서 구현한다.
-/// - [ ] (설정 구현 후) @Shared(.appStorage("appTheme"))를 읽어서 RootView에 테마 적용
-/// - [ ] (선택) 즐겨찾기 탭을 다시 누르면 목록 맨 위로 / 내비게이션 루트로 돌아가기
+/// - 탭 3개를 조립하고, 자식의 delegate(탭 전환 요청)를 처리한다.
+/// - 테마는 설정 화면과 같은 `@Shared(.appTheme)`를 읽어서 RootView에 적용한다.
 @Reducer
 public struct RootFeature {
     public enum Tab: Hashable, Sendable {
@@ -23,6 +23,7 @@ public struct RootFeature {
         public var search: SearchFeature.State
         public var favorites: FavoritesFeature.State
         public var profile: ProfileFeature.State
+        @Shared(.appTheme) public var theme
 
         public init(
             selectedTab: Tab = .search,

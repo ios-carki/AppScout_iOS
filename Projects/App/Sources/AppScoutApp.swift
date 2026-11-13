@@ -7,7 +7,7 @@ import SwiftUI
 @main
 struct AppScoutApp: App {
     /// Store는 앱 전체에서 한 번만 만든다.
-    /// (강의 코드처럼 `body` 안에서 `Store(...)`를 만들면 body가 다시 평가될 때 새로 생길 수 있다)
+    /// `body` 안에서 만들면 body가 다시 평가될 때 새 Store가 생겨 상태가 초기화될 수 있다.
     @MainActor
     static let store = Store(initialState: RootFeature.State()) {
         RootFeature()

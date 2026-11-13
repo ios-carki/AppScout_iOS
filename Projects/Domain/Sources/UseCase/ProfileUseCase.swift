@@ -5,7 +5,7 @@ import Foundation
 /// 프로필 조회·수정.
 ///
 /// 입력 검증(`ProfileValidator`)을 UseCase에서 먼저 하므로, 잘못된 값이면 서버에 요청하지 않고
-/// `DomainError.validation`을 던진다. (강의 코드는 View에서 `guard !name.isEmpty`로 검증했음)
+/// `DomainError.validation`을 던진다. 검증 규칙이 View에 흩어지지 않는다.
 @DependencyClient
 public struct ProfileUseCase: Sendable {
     public var fetch: @Sendable () async throws -> Profile

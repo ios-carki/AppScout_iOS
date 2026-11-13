@@ -4,12 +4,6 @@ import Domain
 import SwiftUI
 
 /// 상세 화면. 와이어프레임 S4~S6
-///
-/// 이 View가 리듀서에 기대하는 것 (State · Action 계약)
-/// - State: `app`, `detail: AppDetail?`, `loadState`(.loading / .loaded / .failed(message:canRetry:)),
-///   `isFavorite`, `isDescriptionExpanded`, `@Presents alert`
-/// - Action: `onAppear`, `retryButtonTapped`, `appStoreButtonTapped`, `favoriteButtonTapped`,
-///   `descriptionMoreButtonTapped`, `alert`
 public struct AppDetailView: View {
     @Bindable var store: StoreOf<AppDetailFeature>
 

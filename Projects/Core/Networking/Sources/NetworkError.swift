@@ -13,8 +13,7 @@ public struct ServerErrorBody: Decodable, Equatable, Sendable {
 
 /// 네트워크 계층 에러.
 ///
-/// 강의 코드의 `NetworkError`는 원인 에러를 버리고 `.failToDecode` 같은 결과만 남겨서,
-/// 어떤 키가 문제인지 알 수 없었다. 여기서는 원인(`underlying`)을 항상 함께 보관한다.
+/// 디코딩 실패 등에서 어떤 키가 문제였는지 추적할 수 있도록 원인(`underlying`)을 항상 함께 보관한다.
 public enum NetworkError: Error, Sendable {
     /// URL 조립 실패
     case invalidURL(String)

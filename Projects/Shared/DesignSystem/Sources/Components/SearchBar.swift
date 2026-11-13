@@ -4,7 +4,9 @@ import SwiftUI
 ///
 /// 상태(텍스트)는 바깥(TCA State)이 소유하고, 이 컴포넌트는 바인딩과 콜백만 받는다.
 /// ```swift
-/// SearchBar(text: $store.query, onSubmit: { store.send(.searchSubmitted) })
+/// SearchBar(text: $store.searchText.sending(\.inputKeyword)) {
+///     store.send(.searchButtonTapped)
+/// }
 /// ```
 public struct SearchBar: View {
     @Binding private var text: String

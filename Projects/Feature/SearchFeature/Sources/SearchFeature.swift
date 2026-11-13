@@ -7,6 +7,11 @@ import Foundation
 ///
 /// 와이어프레임: docs/wireframe/AppScout_Wireframe.pdf S1~S3
 /// 요구사항·체크리스트: docs/feature-guide.md#search
+///
+/// - 입력은 300ms 디바운스 후 자동 검색, 리턴 키·최근 검색어 탭은 즉시 검색 + 최근 검색어 저장
+/// - 새 검색이 시작되면 이전 검색·다음 페이지 요청을 취소한다
+/// - 끝에서 5번째 셀이 보이면 다음 페이지(20개)를 이어 붙인다. 실패하면 하단 버튼으로만 재시도
+/// - 최근 검색어 목록은 DB 관찰 스트림으로만 갱신한다
 @Reducer
 public struct SearchFeature {
     /// 검색 탭 내비게이션 스택에 push되는 화면
@@ -20,7 +25,7 @@ public struct SearchFeature {
         var searchText: String = ""
         var recentSearch: [RecentKeyword] = []
 
-        // 검색
+        // 검색 결과
         var searchedKeyword = ""
         var searchResults: IdentifiedArrayOf<AppSummary> = []
         var total = 0

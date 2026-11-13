@@ -61,7 +61,7 @@ public struct FavoriteApp: Equatable, Hashable, Identifiable, Sendable {
         self.addedAt = addedAt
     }
 
-    /// 상세 화면의 즐겨찾기 버튼에서 사용
+    /// 즐겨찾기에 추가할 때 AppSummary에서 목록용 스냅샷을 만든다
     public init(_ summary: AppSummary, addedAt: Date) {
         self.init(
             id: summary.id,

@@ -5,7 +5,7 @@ import UniformTypeIdentifiers
 /// 업로드용 이미지 압축기.
 ///
 /// ImageIO의 썸네일 API로 원본 전체를 디코딩하지 않고 바로 축소한다. (큰 HEIC도 메모리 부담이 적음)
-/// 강의 코드처럼 60×60 썸네일을 그대로 저장하는 문제를 피하기 위해, 목적에 맞는 크기를 명시적으로 정한다.
+/// 업로드 용량과 화면 표시 품질을 함께 맞추도록 크기와 품질을 명시적으로 정한다.
 public struct ImageCompressor: Sendable {
     /// 긴 변 최대 픽셀
     public var maxPixelSize: Int

@@ -276,9 +276,3 @@ public struct SearchFeature {
 }
 
 extension SearchFeature.Path.State: Equatable {}
-
-extension Error {
-    fileprivate var userMessage: String {
-        (self as? DomainError)?.message ?? "알 수 없는 오류가 발생했어요."
-    }
-}

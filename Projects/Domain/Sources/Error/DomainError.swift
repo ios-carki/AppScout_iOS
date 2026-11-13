@@ -37,6 +37,16 @@ public enum DomainError: Error, Equatable, Sendable {
     }
 }
 
+extension Error {
+    /// 사용자에게 보여 줄 메시지.
+    ///
+    /// `DomainError`면 그 메시지를, 아니면 `DomainError.unknown`의 메시지를 쓴다.
+    /// Feature의 `catch`에서 `error.userMessage`로 바로 꺼내 쓰면 된다.
+    public var userMessage: String {
+        (self as? DomainError ?? .unknown(debugDescription: String(describing: self))).message
+    }
+}
+
 /// 입력값 검증 실패 사유
 public enum ValidationError: Error, Equatable, Sendable {
     case nameTooShort(minimum: Int)

@@ -5,7 +5,6 @@ import Foundation
 /// 상세 화면 리듀서
 ///
 /// 와이어프레임: docs/wireframe/AppScout_Wireframe.pdf S4~S6
-/// 요구사항·체크리스트: docs/feature-guide.md#app-detail
 ///
 /// - 진입 시 받은 AppSummary로 상단을 먼저 그리고, 나머지는 상세 응답 후 표시
 /// - onAppear(.task)에서 즐겨찾기 여부 구독 + (처음이면) 상세 요청을 함께 시작

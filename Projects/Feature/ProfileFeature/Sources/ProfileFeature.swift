@@ -6,7 +6,6 @@ import SettingsFeature
 /// 프로필 화면 리듀서
 ///
 /// 와이어프레임: docs/wireframe/AppScout_Wireframe.pdf S9~S12
-/// 요구사항·체크리스트: docs/feature-guide.md#profile
 ///
 /// - 탭에 들어올 때마다 다시 조회한다. 프로필이 아직 없을 때만 로딩/에러를 보여 주고,
 ///   이미 있으면 기존 값을 유지한 채 조용히 갱신한다.

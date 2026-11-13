@@ -5,7 +5,6 @@ import Foundation
 /// 설정 화면 리듀서
 ///
 /// 와이어프레임: docs/wireframe/AppScout_Wireframe.pdf S13~S14
-/// 요구사항·체크리스트: docs/feature-guide.md#settings
 ///
 /// - 테마는 `@Shared(.appTheme)`. RootFeature도 같은 키를 읽으므로 바꾸는 즉시 앱 전체에 적용된다.
 /// - 최근 검색어 전체 삭제는 확인 다이얼로그를 한 번 거친다. 0개면 버튼을 비활성화한다.

@@ -6,7 +6,6 @@ import Foundation
 /// 즐겨찾기 화면 리듀서
 ///
 /// 와이어프레임: docs/wireframe/AppScout_Wireframe.pdf S7~S8
-/// 요구사항·체크리스트: docs/feature-guide.md#favorites
 ///
 /// - 목록은 DB 관찰 스트림으로만 갱신한다. 삭제 후 배열에서 직접 빼지 않는다.
 ///   그래서 상세에서 ♥를 해제하고 돌아와도 이미 목록에서 사라져 있다.

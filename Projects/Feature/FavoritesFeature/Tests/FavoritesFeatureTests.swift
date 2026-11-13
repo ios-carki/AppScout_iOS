@@ -3,7 +3,7 @@ import Domain
 import Testing
 @testable import FavoritesFeature
 
-/// TestStore로 즐겨찾기 리듀서를 검증한다. (docs/feature-guide.md#favorites 의 "테스트 목록")
+/// TestStore로 즐겨찾기 리듀서를 검증한다.
 @MainActor
 @Suite("FavoritesFeature")
 struct FavoritesFeatureTests {

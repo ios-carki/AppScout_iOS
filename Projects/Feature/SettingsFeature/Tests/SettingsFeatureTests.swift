@@ -3,7 +3,7 @@ import Domain
 import Testing
 @testable import SettingsFeature
 
-/// TestStore로 설정 리듀서를 검증한다. (docs/feature-guide.md#settings 의 "테스트 목록")
+/// TestStore로 설정 리듀서를 검증한다.
 @MainActor
 @Suite("SettingsFeature")
 struct SettingsFeatureTests {

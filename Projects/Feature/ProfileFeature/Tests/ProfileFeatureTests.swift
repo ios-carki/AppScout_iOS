@@ -4,7 +4,7 @@ import Foundation
 import Testing
 @testable import ProfileFeature
 
-/// TestStore로 프로필 리듀서를 검증한다. (docs/feature-guide.md#profile 의 "테스트 목록")
+/// TestStore로 프로필 리듀서를 검증한다.
 @MainActor
 @Suite("ProfileFeature")
 struct ProfileFeatureTests {

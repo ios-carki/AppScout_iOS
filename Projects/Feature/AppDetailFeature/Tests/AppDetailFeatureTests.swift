@@ -4,7 +4,7 @@ import Foundation
 import Testing
 @testable import AppDetailFeature
 
-/// TestStore로 상세 리듀서를 검증한다. (docs/feature-guide.md#app-detail 의 "테스트 목록")
+/// TestStore로 상세 리듀서를 검증한다.
 @MainActor
 @Suite("AppDetailFeature")
 struct AppDetailFeatureTests {

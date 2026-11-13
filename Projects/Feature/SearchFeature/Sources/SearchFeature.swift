@@ -6,7 +6,6 @@ import Foundation
 /// 검색 화면 리듀서
 ///
 /// 와이어프레임: docs/wireframe/AppScout_Wireframe.pdf S1~S3
-/// 요구사항·체크리스트: docs/feature-guide.md#search
 ///
 /// - 입력은 300ms 디바운스 후 자동 검색, 리턴 키·최근 검색어 탭은 즉시 검색 + 최근 검색어 저장
 /// - 새 검색이 시작되면 이전 검색·다음 페이지 요청을 취소한다

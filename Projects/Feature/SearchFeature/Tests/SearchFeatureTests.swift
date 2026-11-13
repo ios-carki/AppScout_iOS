@@ -5,7 +5,7 @@ import Foundation
 import Testing
 @testable import SearchFeature
 
-/// TestStore로 검색 리듀서를 검증한다. (docs/feature-guide.md#search 의 "테스트 목록")
+/// TestStore로 검색 리듀서를 검증한다.
 @MainActor
 @Suite("SearchFeature")
 struct SearchFeatureTests {

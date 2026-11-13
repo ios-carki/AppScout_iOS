@@ -79,6 +79,9 @@ Server/venv/
 .coverage
 htmlcov/
 Server/media/
+# Docker 없이 실행할 때 생기는 SQLite 파일
+Server/*.db
+Server/*.db-journal
 
 # =========================================================
 # Docker

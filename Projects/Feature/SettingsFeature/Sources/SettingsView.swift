@@ -22,6 +22,7 @@ public struct SettingsView: View {
                 .pickerStyle(.segmented)
                 .listRowInsets(EdgeInsets(top: DSSpacing.s, leading: DSSpacing.m, bottom: DSSpacing.s, trailing: DSSpacing.m))
             }
+            .listRowBackground(Color.dsSurface)
 
             Section("데이터") {
                 Button {
@@ -37,6 +38,7 @@ public struct SettingsView: View {
                 .disabled(store.recentKeywordCount == 0)
                 .opacity(store.recentKeywordCount == 0 ? 0.4 : 1)
             }
+            .listRowBackground(Color.dsSurface)
 
             Section("정보") {
                 DSListRow("앱 버전", value: Bundle.main.appVersion, showsChevron: false)
@@ -52,6 +54,7 @@ public struct SettingsView: View {
                         .frame(minHeight: DSSize.minTouch)
                 }
             }
+            .listRowBackground(Color.dsSurface)
         }
         .listStyle(.insetGrouped)
         .scrollContentBackground(.hidden)
@@ -78,6 +81,7 @@ struct LicensesView: View {
     var body: some View {
         List(licenses, id: \.name) { item in
             DSListRow(item.name, value: item.license, showsChevron: false)
+                .listRowBackground(Color.dsSurface)
         }
         .listStyle(.insetGrouped)
         .scrollContentBackground(.hidden)

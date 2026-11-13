@@ -58,5 +58,16 @@ public struct RootFeature {
         Scope(state: \.profile, action: \.profile) {
             ProfileFeature()
         }
+
+        Reduce { state, action in
+            switch action {
+            case .favorites(.delegate(.searchTabRequested)):
+                state.selectedTab = .search
+                return .none
+
+            case .binding, .search, .favorites, .profile:
+                return .none
+            }
+        }
     }
 }
